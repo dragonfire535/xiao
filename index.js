@@ -74,7 +74,7 @@ bot.on('guildDelete', guild => {
 });
 
 bot.on('ready', () => {
-    let games = ["with a cardboard box", "with Rem", "with my cat", "in the fridge", "in " + bot.guilds.array().length + " servers", "with dragonfire535", "at the Inn", "with your heart", "with a knife", "a murderous cow", "with ;help", "with Cleverbot", "like a pirate", "with all my games", "against Miki"];
+    let games = ["with a cardboard box", "with Rem", "with my cat", "in the fridge", "in " + bot.guilds.array().length + " servers", "with dragonfire535", "at the Inn", "with your heart", "with a knife", "with a murderous cow", ";help | dragonfire535", "with Cleverbot", "like a pirate", "with all my games", "against Miki"];
     bot.user.setGame(games[Math.floor(Math.random() * 15)]);
     bot.setInterval(()=>{bot.user.setGame(games[Math.floor(Math.random() * 15)]);}, 300000);
     console.log('Logged in!');
