@@ -50,7 +50,7 @@ class InfoCommand extends commando.Command {
         .addField('Node Version',
         "7.6.0", true)
         .addField('Source Code',
-        "Coming Soon...", true)
+        "[View Here](https://github.com/dragonfire535/xiaobot)", true)
         .addField('Lib', 
         "[discord.js](https://discord.js.org/#/) (master)", true)
         .addField('Packages',
