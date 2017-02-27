@@ -58,9 +58,9 @@ class InfoCommand extends commando.Command {
         .addField('Lib', 
         "[discord.js](https://discord.js.org/#/) (master)", true)
         .addField('Packages',
-        "[Commando](https://github.com/Gawdl3y/discord.js-commando) (0.9.0), [cleverbot-node](https://github.com/fojas/cleverbot-node) (0.3.3), [pirate-speak](https://github.com/mikewesthad/pirate-speak) (1.0.1), [JIMP](https://github.com/oliver-moran/jimp) (0.2.27)")
+        "[Commando](https://github.com/Gawdl3y/discord.js-commando) (0.9.0), [cleverbot-node](https://github.com/fojas/cleverbot-node) (0.3.3), [pirate-speak](https://github.com/mikewesthad/pirate-speak) (1.0.1), [JIMP](https://github.com/oliver-moran/jimp) (0.2.27), [google-translate-api](https://github.com/matheuss/google-translate-api) (2.2.2)")
         .addField('Other Credit',
-        "[Heroku](https://www.heroku.com/), [Cleverbot API](https://www.cleverbot.com/api/)")
+        "[Cleverbot API](https://www.cleverbot.com/api/)")
         .addField('My Server',
         "[Click Here to Join!](https://discord.gg/fqQF8mc)")
         .addField('Invite Link:',
