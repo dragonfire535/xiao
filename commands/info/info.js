@@ -41,6 +41,8 @@ class InfoCommand extends commando.Command {
         "There are a variety of commands XiaoBot can use! Use ';help' to view a list of all commands!")
         .addField('Servers',
         this.client.guilds.array().length, true)
+        .addField('Users',
+        this.client.users.array().length, true)
         .addField('Commands',
         config.commandcount, true)
         .addField('Owner',
@@ -49,6 +51,8 @@ class InfoCommand extends commando.Command {
         toHHMMSS(process.uptime()), true)
         .addField('Node Version',
         "7.6.0", true)
+        .addField('Host',
+        "[Heroku](https://www.heroku.com/)", true)
         .addField('Source Code',
         "[View Here](https://github.com/dragonfire535/xiaobot)", true)
         .addField('Lib', 
