@@ -10,15 +10,21 @@ const bot = new commando.Client({
 const Cleverbot = require('cleverbot-node');
 const cleverbot = new Cleverbot;
 cleverbot.configure({botapi: config.clevkey});
+const path = require('path');
 
-bot.registry.registerGroup('fun', 'Fun');
-bot.registry.registerGroup('randomimage', 'Random Image');
-bot.registry.registerGroup('randomsong', 'Random Song');
-bot.registry.registerGroup('roleplay', 'Roleplay');
-bot.registry.registerGroup('info', 'Information');
-bot.registry.registerGroup('moderation', 'Moderation');
-bot.registry.registerDefaults();
-bot.registry.registerCommandsIn(__dirname + "/commands");
+bot.registry
+.registerDefaultTypes()
+.registerGroups([
+    ['info', 'Info'],
+    ['fun', 'Fun'],
+    ['randomimage', 'Random Image'],
+    ['randomsong', 'Random Song'],
+    ['roleplay', 'Roleplay'],
+    ['moderation', 'Moderation']
+])
+.registerDefaultGroups()
+.registerDefaultCommands()
+.registerCommandsIn(path.join(__dirname, 'commands'));
 
 bot.on('message', (message) => {
     if(message.author.bot) return;
