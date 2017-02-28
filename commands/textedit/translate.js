@@ -29,7 +29,7 @@ class TranslateCommand extends commando.Command {
                 const embed = new Discord.RichEmbed()
                 .setColor(0x00AE86)
                 .addField('Input:',
-                "**Text:** " + messagecontent)
+                "**From:** " + messagecontent)
                 .addField('Translation (To: ' + languages.entries[languageto] + ')',
                 "**To:** " + res.text);
                 message.channel.sendEmbed(embed).catch(console.error);
