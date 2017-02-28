@@ -42,7 +42,7 @@ bot.on('message', (message) => {
         message.reply("Reminder: To leave a server, eval `this.client.guilds.get(<ID>).leave();`");
     }
     if(message.content.includes("(╯°□°）╯︵ ┻━┻")) {
-        if(message.guild.id !== "252317073814978561") return;
+        if(message.guild.id === "110373943822540800") return;
         message.reply("Calm down!   ┬─┬ ノ( ゜-゜ノ)");
     }
     if (message.content.startsWith("<@" + bot.user.id + ">")){
