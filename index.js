@@ -3,7 +3,7 @@ const commando = require('discord.js-commando');
 const config = require('./config.json');
 const clevusers = require('./clevusers.json');
 const bot = new commando.Client({
-    commandPrefix: config.prefix,
+    commandPrefix: ';',
     unknownCommandResponse: false,
     owner: config.owner
 });
@@ -15,12 +15,16 @@ const path = require('path');
 bot.registry
 .registerDefaultTypes()
 .registerGroups([
-    ['info', 'Info'],
-    ['fun', 'Fun'],
-    ['randomimage', 'Random Image'],
-    ['randomsong', 'Random Song'],
-    ['roleplay', 'Roleplay'],
-    ['moderation', 'Moderation']
+    ['botinfo', 'Bot Info'],
+    ['userinfo', 'User Info'],
+    ['guildinfo', 'Server Info'],
+    ['moderation', 'Moderation'],
+    ['response', 'Random Response'],
+    ['avataredit', 'Avatar Manipulation'],
+    ['textedit', 'Text Manipulation'],
+    ['pokemon', 'Pokémon'],
+    ['random', 'Random/Other'],
+    ['roleplay', 'Roleplay']
 ])
 .registerDefaultGroups()
 .registerDefaultCommands()
@@ -28,12 +32,12 @@ bot.registry
 
 bot.on('message', (message) => {
     if(message.author.bot) return;
-    if(message.content.startsWith(config.prefix + 'servers')) {
+    if(message.content.startsWith(';servers')) {
         if(message.author.id !== config.owner) return;
         console.log(bot.guilds.array().length + " Servers: " + bot.guilds.map(g => g.name + " (" + g.id + ")").join(", "));
         message.reply("Sent the information to the console!");
     }
-    if(message.content.startsWith(config.prefix + "leave")) {
+    if(message.content.startsWith(';leave')) {
         if(message.author.id !== config.owner) return;
         message.reply("Reminder: To leave a server, eval `this.client.guilds.get(<ID>).leave();`");
     }
