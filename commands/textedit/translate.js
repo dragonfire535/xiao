@@ -42,7 +42,7 @@ class TranslateCommand extends commando.Command {
                 });
             }
         } else {
-            message.reply(":x: Error! Language not found!")
+            message.reply(":x: Error! Language not found!");
         }
     }
 }
