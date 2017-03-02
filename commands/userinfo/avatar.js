@@ -16,6 +16,7 @@ class AvatarCommand extends commando.Command {
             if(!message.channel.permissionsFor(this.client.user).hasPermission('SEND_MESSAGES')) return;
             if(!message.channel.permissionsFor(this.client.user).hasPermission('READ_MESSAGES')) return;
         }
+        console.log("[Command] " + message.content);
         if (message.mentions.users.size !== 1) {
             message.reply(':x: Either too many or no members, only mention one person!');
         } else {

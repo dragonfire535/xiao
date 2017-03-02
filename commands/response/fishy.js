@@ -16,6 +16,7 @@ class FishyCommand extends commando.Command {
             if(!message.channel.permissionsFor(this.client.user).hasPermission('SEND_MESSAGES')) return;
             if(!message.channel.permissionsFor(this.client.user).hasPermission('READ_MESSAGES')) return;
         }
+        console.log("[Command] " + message.content);
         let coin = [':fish:', ':tropical_fish:', ':blowfish:'][Math.floor(Math.random() * 3)];
         message.reply("You caught a: " + coin);
     }

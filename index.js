@@ -34,21 +34,27 @@ bot.on('message', (message) => {
     if(message.author.bot) return;
     if(message.content.startsWith(';servers')) {
         if(message.author.id !== config.owner) return;
+        console.log("[Command] " + message.content);
         console.log(bot.guilds.array().length + " Servers: " + bot.guilds.map(g => g.name + " (" + g.id + ")").join(", "));
         message.reply("Sent the information to the console!");
     }
     if(message.content.startsWith(';leave')) {
         if(message.author.id !== config.owner) return;
+        console.log("[Command] " + message.content);
         message.reply("Reminder: To leave a server, eval `this.client.guilds.get(<ID>).leave();`");
     }
     if(message.content.includes("(╯°□°）╯︵ ┻━┻")) {
-        if(message.guild.id === "110373943822540800") return;
+        if(message.channel.type !== 'dm') {
+            if(message.guild.id === "110373943822540800") return;
+        }
+        console.log("[Command] " + message.content);
         message.reply("Calm down!   ┬─┬ ノ( ゜-゜ノ)");
     }
     if (message.content.startsWith("<@" + bot.user.id + ">")){
+        if(message.channel.type === 'dm') return;
         if(message.guild.id === "252317073814978561") {
+            console.log("[Cleverbot] " + message.content);
             if(message.author.id === clevusers.allowed[message.author.id]) {
-                if(message.channel.type === 'dm') return;
                 let cleverMessage = message.content.replace("<@" + bot.user.id + ">", "");
                 message.channel.startTyping();
                 cleverbot.write(cleverMessage, function (response) {
@@ -76,19 +82,21 @@ bot.on('guildMemberRemove', member => {
 });
 
 bot.on('guildCreate', guild => {
-    console.log("I have joined the guild: " + guild.name + " (" + guild.id + ")...");
+    console.log("[Guild] I have joined the guild: " + guild.name + " (" + guild.id + ")...");
 });
 
 bot.on('guildDelete', guild => {
-    console.log("I have left the guild: " + guild.name + " (" + guild.id + ")...");
+    console.log("[Guild] I have left the guild: " + guild.name + " (" + guild.id + ")...");
 });
+    
+bot.setInterval(()=>{
+    let games = ["with a cardboard box", "with Rem", "with my cat", "in the fridge", "in " + bot.guilds.size + " servers", "with dragonfire535", "at the Inn", "with your heart", "with a knife", "with a murderous cow", ";help | dragonfire535", "with Cleverbot", "like a pirate", "with all my games", "against Miki", "with " + bot.users.size + " Users"][Math.floor(Math.random() * 16)];
+    bot.user.setGame(games);
+}, 300000);
 
-bot.on('ready', () => {
-    let games = ["with a cardboard box", "with Rem", "with my cat", "in the fridge", "in " + bot.guilds.array().length + " servers", "with dragonfire535", "at the Inn", "with your heart", "with a knife", "with a murderous cow", ";help | dragonfire535", "with Cleverbot", "like a pirate", "with all my games", "against Miki", "with " + bot.users.array().length + " Users"];
-    bot.user.setGame(games[Math.floor(Math.random() * 16)]);
-    bot.setInterval(()=>{bot.user.setGame(games[Math.floor(Math.random() * 16)]);}, 300000);
-    console.log('Logged in!');
-    console.log(bot.guilds.array().length + " Servers: " + bot.guilds.map(g => g.name + " (" + g.id + ")").join(", "));
+bot.once('ready', () => {
+    console.log('[Ready] Logged in!');
+    bot.user.setGame("Just Started Up!");
 });
 
 bot.login(config.token);

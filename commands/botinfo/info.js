@@ -19,6 +19,7 @@ class InfoCommand extends commando.Command {
             if(!message.channel.permissionsFor(this.client.user).hasPermission('READ_MESSAGES')) return;
             if(!message.channel.permissionsFor(this.client.user).hasPermission('EMBED_LINKS')) return;
         }
+        console.log("[Command] " + message.content);
         const toHHMMSS = seconds => {
             let secNum = parseInt(seconds, 10);
             let hours = Math.floor(secNum / 3600);
@@ -40,9 +41,9 @@ class InfoCommand extends commando.Command {
         .addField('Commands',
         "There are a variety of commands XiaoBot can use! Use ';help' to view a list of all commands!")
         .addField('Servers',
-        this.client.guilds.array().length, true)
+        this.client.guilds.size, true)
         .addField('Users',
-        this.client.users.array().length, true)
+        this.client.users.size, true)
         .addField('Commands',
         config.commandcount, true)
         .addField('Owner',

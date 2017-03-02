@@ -18,14 +18,20 @@ class EmbedCommand extends commando.Command {
             if(!message.channel.permissionsFor(this.client.user).hasPermission('READ_MESSAGES')) return;
             if(!message.channel.permissionsFor(this.client.user).hasPermission('EMBED_LINKS')) return;
         }
-        const embed = new Discord.RichEmbed()
-        .setAuthor(message.author.username, message.author.avatarURL)
-        .setColor(0x00AE86)
-        .setTimestamp()
-        .setDescription(message.content.split(" ").slice(1).join(" ") + ".");
-        message.channel.sendEmbed(embed).catch(console.error);
-        if (message.channel.type === 'dm') return;
-        message.delete();
+        console.log("[Command] " + message.content);
+        let embedmessage = message.content.split(" ").slice(1).join(" ");
+        if(embedmessage === "") {
+            message.reply(":x: Error! Nothing to embed!");
+        } else {
+            const embed = new Discord.RichEmbed()
+            .setAuthor(message.author.username, message.author.avatarURL)
+            .setColor(0x00AE86)
+            .setTimestamp()
+            .setDescription(embedmessage);
+            message.channel.sendEmbed(embed).catch(console.error);
+            if (message.channel.type === 'dm') return;
+            message.delete();
+        }
     }
 }
 

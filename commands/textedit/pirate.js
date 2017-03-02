@@ -17,9 +17,14 @@ class PirateCommand extends commando.Command {
             if(!message.channel.permissionsFor(this.client.user).hasPermission('SEND_MESSAGES')) return;
             if(!message.channel.permissionsFor(this.client.user).hasPermission('READ_MESSAGES')) return;
         }
+        console.log("[Command] " + message.content);
         let messagecontent = message.content.split(" ").slice(1).join(" ");
         let pirate = pirateSpeak.translate(messagecontent);
-        message.channel.sendMessage("Y'arr! " + pirate);
+        if(messagecontent === "") {
+            message.reply(":x: Error! Nothing to translate!");
+        } else {
+            message.channel.sendMessage(pirate);
+        }
     }
 }
 

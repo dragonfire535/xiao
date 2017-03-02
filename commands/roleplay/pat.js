@@ -16,6 +16,7 @@ class PatCommand extends commando.Command {
             if(!message.channel.permissionsFor(this.client.user).hasPermission('SEND_MESSAGES')) return;
             if(!message.channel.permissionsFor(this.client.user).hasPermission('READ_MESSAGES')) return;
         }
+        console.log("[Command] " + message.content);
         let username = message.content.split(" ").slice(1).join(" ");
         message.channel.sendMessage(message.author + ' *pats* ' + username);
     }

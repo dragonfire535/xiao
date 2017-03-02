@@ -19,6 +19,7 @@ class PokedexCommand extends commando.Command {
             if(!message.channel.permissionsFor(this.client.user).hasPermission('READ_MESSAGES')) return;
             if(!message.channel.permissionsFor(this.client.user).hasPermission('EMBED_LINKS')) return;
         }
+        console.log("[Command] " + message.content);
         let pokemon = message.content.toLowerCase().split(" ").slice(1).join(" ");
         if (pokedex.name[pokemon]) {
             const embed = new Discord.RichEmbed()

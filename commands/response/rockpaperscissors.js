@@ -16,6 +16,7 @@ class RockPaperScissors extends commando.Command {
             if(!message.channel.permissionsFor(this.client.user).hasPermission('SEND_MESSAGES')) return;
             if(!message.channel.permissionsFor(this.client.user).hasPermission('READ_MESSAGES')) return;
         }
+        console.log("[Command] " + message.content);
         let [rps] = message.content.toLowerCase().split(" ").slice(1);
         let response = ['Paper', 'Rock', 'Scissors'][Math.floor(Math.random() * 3)];
         if(rps === undefined) {

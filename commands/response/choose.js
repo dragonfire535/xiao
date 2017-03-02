@@ -16,6 +16,7 @@ class ChooseCommand extends commando.Command {
             if(!message.channel.permissionsFor(this.client.user).hasPermission('SEND_MESSAGES')) return;
             if(!message.channel.permissionsFor(this.client.user).hasPermission('READ_MESSAGES')) return;
         }
+        console.log("[Command] " + message.content);
         if(message.content.includes("|")) {
             let choice2 = message.content.split("|").slice(1).join(" ");
             let choice1 = " " + message.content.replace(choice2, "").split(" ").slice(1).join(" ");

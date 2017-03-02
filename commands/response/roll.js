@@ -16,9 +16,11 @@ class RollChooseCommand extends commando.Command {
             if(!message.channel.permissionsFor(this.client.user).hasPermission('SEND_MESSAGES')) return;
             if(!message.channel.permissionsFor(this.client.user).hasPermission('READ_MESSAGES')) return;
         }
+        console.log("[Command] " + message.content);
         let [value] = message.content.split(" ").slice(1);
         if(value === undefined) {
-            message.reply(":x: Error! Your message contains nothing!");
+            let roll = Math.floor(Math.random() * 6) + 1;
+            message.reply("You rolled a " + roll)
         } else if(value.match("^[0-9]+$")) {
             let roll = Math.floor(Math.random() * value) + 1;
             message.reply("You rolled a " + roll);

@@ -16,9 +16,14 @@ class MotivateCommand extends commando.Command {
             if(!message.channel.permissionsFor(this.client.user).hasPermission('SEND_MESSAGES')) return;
             if(!message.channel.permissionsFor(this.client.user).hasPermission('READ_MESSAGES')) return;
         }
+        console.log("[Command] " + message.content);
         let username = message.content.split(" ").slice(1).join(" ");
         let coin = ['https://www.youtube.com/watch?v=ZXsQAXx_ao0'][Math.floor(Math.random() * 1)];
-        message.channel.sendMessage(username + ", " + coin);
+        if(username === '') {
+            message.reply(coin);
+        } else {
+            message.channel.sendMessage(username + ", " + coin);
+        }
     }
 }
 

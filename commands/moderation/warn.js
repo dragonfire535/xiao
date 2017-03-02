@@ -20,6 +20,7 @@ class WarnCommand extends commando.Command {
             if(!message.channel.permissionsFor(this.client.user).hasPermission('KICK_MEMBERS')) return;
             if(!message.channel.permissionsFor(this.client.user).hasPermission('BAN_MEMBERS')) return;
         }
+        console.log("[Command] " + message.content);
         if (message.channel.type === 'dm') {
             message.reply(":x: This is a DM!");
         } else {
