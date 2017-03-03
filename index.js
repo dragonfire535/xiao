@@ -31,7 +31,7 @@ client.registry
 .registerCommandsIn(path.join(__dirname, 'commands'));
 
 client.on('message', (message) => {
-    if(message.author.client) return;
+    if(message.author.bot) return;
     if(message.content.startsWith(';servers')) {
         if(message.author.id !== config.owner) return;
         console.log("[Command] " + message.content);
@@ -50,19 +50,25 @@ client.on('message', (message) => {
         console.log("[Command] " + message.content);
         message.reply("Calm down!   ┬─┬ ノ( ゜-゜ノ)");
     }
-    if (message.content.startsWith("<@" + client.user.id + ">")){
-        if(message.channel.type === 'dm') return;
-        if(message.guild.id === "252317073814978561") {
-            console.log("[Cleverbot] " + message.content);
-            if(message.author.id === clevusers.allowed[message.author.id]) {
-                let cleverMessage = message.content.replace("<@" + client.user.id + ">", "");
-                message.channel.startTyping();
-                cleverbot.write(cleverMessage, function (response) {
-                    message.reply(response.output);
-                    message.channel.stopTyping();
-                });
-            } else {
-                message.reply(":x: Error! You are either not verified for Cleverbot, or banned from it. Please check #rules for a link to the forum to sign-up for Cleverbot.");
+    if(message.content.includes(":Swagolor:")) {
+        if(message.guild.id !== "252317073814978561") return;
+        message.channel.sendMessage(message.guild.emojis.get('254827709459333120').toString());
+    }
+    if(message.channel.type !== 'dm') {
+        if (message.content.startsWith("<@" + client.user.id + ">")){
+            if(message.guild.id === "252317073814978561") {
+                console.log("[Cleverbot] " + message.content);
+                if(message.author.id === clevusers.allowed[message.author.id]) {
+                    let cleverMessage = message.content.replace("<@" + client.user.id + ">", "");
+                    cleverMessage = cleverMessage.replace("", '');
+                    message.channel.startTyping();
+                    cleverbot.write(cleverMessage, function (response) {
+                        message.reply(response.output);
+                        message.channel.stopTyping();
+                    });
+                } else {
+                    message.reply(":x: Error! You are either not verified for Cleverbot, or banned from it. Please check #rules for a link to the forum to sign-up for Cleverbot.");
+                }
             }
         }
     }
