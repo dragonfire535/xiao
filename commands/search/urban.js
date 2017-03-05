@@ -1,12 +1,11 @@
 const commando = require('discord.js-commando');
-const Discord = require('discord.js');
 const urban = require('urban');
 
 class UrbanDictionary extends commando.Command {
     constructor(Client){
         super(Client, {
             name: 'urban', 
-            group: 'random',
+            group: 'search',
             memberName: 'urban',
             description: 'Searches Urban Dictionary. (;urban Cat)',
             examples: [';urban Cat']
@@ -22,13 +21,13 @@ class UrbanDictionary extends commando.Command {
         let wordtodefine = message.content.split(" ").slice(1).join(" ");
         urban(wordtodefine).first(function(json) {
             if(json === undefined) {
-                message.reply(":x: Error! Word not found!");
+                message.channel.sendMessage(":x: Error! Word not found!");
             } else if(json.definition === '') {
-                message.reply(":x: Error! Word has no definition!");
+                message.channel.sendMessage(":x: Error! Word has no definition!");
             } else if(json.example === '') {
-                message.channel.sendMessage("**Definition:**\n" + json.definition, {split:{maxLength:1900}});
+                message.channel.sendMessage("**Definition:**\n" + json.definition, {split:true});
             } else {
-                message.channel.sendMessage("**Definition:**\n" + json.definition + "\n\n**Example:**\n" + json.example, {split:{maxLength:1900}});
+                message.channel.sendMessage("**Definition:**\n" + json.definition + "\n\n**Example:**\n" + json.example, {split:true});
             }
         });
     }

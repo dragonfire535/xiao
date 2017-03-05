@@ -1,13 +1,14 @@
 const commando = require('discord.js-commando');
+const WikiFakt = require('wikifakt');
 
-class ShipCommand extends commando.Command {
+class FactCommand extends commando.Command {
     constructor(Client){
         super(Client, {
-            name: 'ship', 
+            name: 'fact', 
             group: 'response',
-            memberName: 'ship',
-            description: 'Ships two people. (;ship @Rem and @Nate)',
-            examples: [';ship @Rem and @Nate']
+            memberName: 'fact',
+            description: 'Gets a random fact. (;fact)',
+            examples: [';fact']
         });
     }
 
@@ -17,10 +18,11 @@ class ShipCommand extends commando.Command {
             if(!message.channel.permissionsFor(this.client.user).hasPermission('READ_MESSAGES')) return;
         }
         console.log("[Command] " + message.content);
-        let ship = message.content.split(" ").slice(1).join(" ");
-        let percentage = Math.floor(Math.random() * 100) + 1;
-        message.channel.sendMessage("I'd give " + ship + " a " + percentage + "%!");
+        WikiFakt.preload = false;
+        WikiFakt.getRandomFact().then(function(fact) {
+            message.channel.sendMessage(fact);
+        });
     }
 }
 
-module.exports = ShipCommand;
+module.exports = FactCommand;
