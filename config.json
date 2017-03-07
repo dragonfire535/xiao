@@ -1,7 +1,11 @@
 {
-  "token": "TokenGoesHere",
+  "token": "BotTokenGoesHere",
+  "botskey": "DiscordBotsAPIKeyGoesHere",
   "clevkey": "CleverbotAPIKeyGoesHere",
-  "osukey": "OsuAPIKeyGoesHere",
-  "owner": "242699360352206850",
-  "commandcount": "83"
+  "osukey": "osuAPIKeyGoesHere",
+  "wattpadkey": "WattpadAPIKeyGoesHere",
+  "wordnikkey": "WordnikAPIKeyGoesHere",
+  "owner": "BotOwnerIDGoesHere",
+  "server": "BotHomeServerIDGoesHere",
+  "commandcount": "87"
 }

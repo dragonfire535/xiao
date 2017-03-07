@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const commando = require('discord.js-commando');
 const config = require('./config.json');
+const request = require('request-promise');
 const clevusers = require('./clevusers.json');
 const client = new commando.Client({
     commandPrefix: ';',
@@ -51,12 +52,12 @@ client.on('message', (message) => {
         message.channel.sendMessage("Calm down!   ┬─┬ ノ( ゜-゜ノ)");
     }
     if(message.content.includes(":Swagolor:")) {
-        if(message.guild.id !== "252317073814978561") return;
+        if(message.guild.id !== config.server) return;
         message.channel.sendMessage(message.guild.emojis.get('254827709459333120').toString());
     }
     if(message.channel.type !== 'dm') {
         if (message.content.startsWith("<@" + client.user.id + ">")){
-            if(message.guild.id === "252317073814978561") {
+            if(message.guild.id === config.server) {
                 console.log("[Cleverbot] " + message.content);
                 if(message.author.id === clevusers.allowed[message.author.id]) {
                     let cleverMessage = message.content.replace("<@" + client.user.id + ">", "");
@@ -67,7 +68,7 @@ client.on('message', (message) => {
                         message.channel.stopTyping();
                     });
                 } else {
-                    message.reply(":x: Error! You are either not verified for Cleverbot, or banned from it. Please check #rules for a link to the forum to sign-up for Cleverbot.");
+                    message.channel.sendMessage(":x: Error! You are either not verified for Cleverbot, or banned from it. Please check #rules for a link to the forum to sign-up for Cleverbot.");
                 }
             }
         }
@@ -75,24 +76,84 @@ client.on('message', (message) => {
 });
 
 client.on('guildMemberAdd', member => {
-    if(member.guild.id !== "252317073814978561") return;
+    if(member.guild.id !== config.server) return;
     member.addRole(member.guild.roles.find('name', 'Members'));
     let username = member.user.username;
     member.guild.defaultChannel.send('Welcome ' + username + '!');
 });
 
 client.on('guildMemberRemove', member => {
-    if(member.guild.id !== "252317073814978561") return;
+    if(member.guild.id !== config.server) return;
     let username = member.user.username;
     member.guild.defaultChannel.send('Bye ' + username + '...');
 });
 
 client.on('guildCreate', guild => {
     console.log("[Guild] I have joined the guild: " + guild.name + " (" + guild.id + ")...");
+    const carbonPOST = {
+        method: 'POST',
+        uri: 'https://www.carbonitex.net/discord/data/botdata.php',
+        body: {
+            key: config.carbonkey,
+            servercount: client.guilds.size
+        },
+        json: true
+    }
+    const DBotsPOST = {
+        method: 'POST',
+        uri: 'https://bots.discord.pw/api/bots/278305350804045834/stats',
+        body: {
+            server_count: client.guilds.size
+        },
+  	    headers: {
+    	    'Authorization': config.botskey
+        },
+        json: true
+    }
+    request(carbonPOST).then(function (parsedBody) {
+        console.log('[Carbon] ' + parsedBody);
+    }).catch(function (err) {
+        console.log("[Carbon] " + err);
+    });
+    request(DBotsPOST).then(function (parsedBody) {
+        console.log('[Discord Bots] ' + parsedBody);
+    }).catch(function (err) {
+        console.log("[Discord Bots] " + err);
+    });
 });
 
 client.on('guildDelete', guild => {
     console.log("[Guild] I have left the guild: " + guild.name + " (" + guild.id + ")...");
+    const carbonPOST = {
+        method: 'POST',
+        uri: 'https://www.carbonitex.net/discord/data/botdata.php',
+        body: {
+            key: config.carbonkey,
+            servercount: client.guilds.size
+        },
+        json: true
+    }
+    const DBotsPOST = {
+        method: 'POST',
+        uri: 'https://bots.discord.pw/api/bots/278305350804045834/stats',
+        body: {
+            server_count: client.guilds.size
+        },
+  	    headers: {
+    	    'Authorization': config.botskey
+        },
+        json: true
+    }
+    request(carbonPOST).then(function (parsedBody) {
+        console.log('[Carbon] ' + parsedBody);
+    }).catch(function (err) {
+        console.log("[Carbon] " + err);
+    });
+    request(DBotsPOST).then(function (parsedBody) {
+        console.log('[Discord Bots] ' + parsedBody);
+    }).catch(function (err) {
+        console.log("[Discord Bots] " + err);
+    });
 });
     
 client.setInterval(()=>{
