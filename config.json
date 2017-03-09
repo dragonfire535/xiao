@@ -1,5 +1,6 @@
 {
   "token": "BotTokenGoesHere",
+  "carbonkey": "CarbonKeyGoesHere",
   "botskey": "DiscordBotsAPIKeyGoesHere",
   "clevkey": "CleverbotAPIKeyGoesHere",
   "osukey": "osuAPIKeyGoesHere",
