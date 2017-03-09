@@ -23,12 +23,13 @@ client.registry
     ['response', 'Random Response'],
     ['avataredit', 'Avatar Manipulation'],
     ['textedit', 'Text Manipulation'],
+    ['imageedit', 'Image Manipulation'],
     ['search', 'Search'],
     ['random', 'Random/Other'],
     ['roleplay', 'Roleplay']
 ])
 .registerDefaultGroups()
-.registerDefaultCommands()
+.registerDefaultCommands({prefix:false})
 .registerCommandsIn(path.join(__dirname, 'commands'));
 
 client.on('message', (message) => {
@@ -38,6 +39,10 @@ client.on('message', (message) => {
         console.log("[Command] " + message.content);
         console.log(client.guilds.array().length + " Servers: " + client.guilds.map(g => g.name + " (" + g.id + ")").join(", "));
         message.channel.sendMessage("Sent the information to the console!");
+    }
+    if(message.content.startsWith(';shards')) {
+        if(message.author.id !== config.owner) return;
+        message.channel.sendMessage(client.options.shardCount);
     }
     if(message.content.startsWith(';leave')) {
         if(message.author.id !== config.owner) return;
@@ -90,80 +95,81 @@ client.on('guildMemberRemove', member => {
 
 client.on('guildCreate', guild => {
     console.log("[Guild] I have joined the guild: " + guild.name + " (" + guild.id + ")...");
-    const carbonPOST = {
-        method: 'POST',
-        uri: 'https://www.carbonitex.net/discord/data/botdata.php',
-        body: {
-            key: config.carbonkey,
-            servercount: client.guilds.size
-        },
-        json: true
-    }
-    const DBotsPOST = {
-        method: 'POST',
-        uri: 'https://bots.discord.pw/api/bots/278305350804045834/stats',
-        body: {
-            server_count: client.guilds.size
-        },
-  	    headers: {
-    	    'Authorization': config.botskey
-        },
-        json: true
-    }
-    request(carbonPOST).then(function (parsedBody) {
-        console.log('[Carbon] ' + parsedBody);
-    }).catch(function (err) {
-        console.log("[Carbon] " + err);
-    });
-    request(DBotsPOST).then(function (parsedBody) {
-        console.log('[Discord Bots] ' + parsedBody);
-    }).catch(function (err) {
-        console.log("[Discord Bots] " + err);
+    client.shard.fetchClientValues('guilds.size').then(results => {
+        console.log("[POST] " + results.reduce((prev, val) => prev + val, 0));
+        const carbonPOST = {
+            method: 'POST',
+            uri: 'https://www.carbonitex.net/discord/data/botdata.php',
+            body: {
+                key: config.carbonkey,
+                servercount: results.reduce((prev, val) => prev + val, 0)
+            },
+            json: true
+        }
+        const DBotsPOST = {
+            method: 'POST',
+            uri: 'https://bots.discord.pw/api/bots/' + config.botid + '/stats',
+            body: {
+                server_count: results.reduce((prev, val) => prev + val, 0)
+            },
+  	        headers: {
+    	        'Authorization': config.botskey
+            },
+            json: true
+        }
+        request(carbonPOST).then(function (parsedBody) {
+            console.log('[Carbon] ' + parsedBody);
+        }).catch(function (err) {
+            console.log("[Carbon] " + err);
+        });
+        request(DBotsPOST).then(function (parsedBody) {
+            console.log('[Discord Bots] ' + parsedBody);
+        }).catch(function (err) {
+            console.log("[Discord Bots] " + err);
+        });
     });
 });
 
 client.on('guildDelete', guild => {
     console.log("[Guild] I have left the guild: " + guild.name + " (" + guild.id + ")...");
-    const carbonPOST = {
-        method: 'POST',
-        uri: 'https://www.carbonitex.net/discord/data/botdata.php',
-        body: {
-            key: config.carbonkey,
-            servercount: client.guilds.size
-        },
-        json: true
-    }
-    const DBotsPOST = {
-        method: 'POST',
-        uri: 'https://bots.discord.pw/api/bots/278305350804045834/stats',
-        body: {
-            server_count: client.guilds.size
-        },
-  	    headers: {
-    	    'Authorization': config.botskey
-        },
-        json: true
-    }
-    request(carbonPOST).then(function (parsedBody) {
-        console.log('[Carbon] ' + parsedBody);
-    }).catch(function (err) {
-        console.log("[Carbon] " + err);
-    });
-    request(DBotsPOST).then(function (parsedBody) {
-        console.log('[Discord Bots] ' + parsedBody);
-    }).catch(function (err) {
-        console.log("[Discord Bots] " + err);
+    client.shard.fetchClientValues('guilds.size').then(results => {
+        console.log("[POST] " + results.reduce((prev, val) => prev + val, 0));
+        const carbonPOST = {
+            method: 'POST',
+            uri: 'https://www.carbonitex.net/discord/data/botdata.php',
+            body: {
+                key: config.carbonkey,
+                servercount: results.reduce((prev, val) => prev + val, 0)
+            },
+            json: true
+        }
+        const DBotsPOST = {
+            method: 'POST',
+            uri: 'https://bots.discord.pw/api/bots/' + config.botid + '/stats',
+            body: {
+                server_count: results.reduce((prev, val) => prev + val, 0)
+            },
+  	        headers: {
+    	        'Authorization': config.botskey
+            },
+            json: true
+        }
+        request(carbonPOST).then(function (parsedBody) {
+            console.log('[Carbon] ' + parsedBody);
+        }).catch(function (err) {
+            console.log("[Carbon] " + err);
+        });
+        request(DBotsPOST).then(function (parsedBody) {
+            console.log('[Discord Bots] ' + parsedBody);
+        }).catch(function (err) {
+            console.log("[Discord Bots] " + err);
+        });
     });
 });
-    
-client.setInterval(()=>{
-    let games = ["with a cardboard box", "with Rem", "with my cat", "in the fridge", "in " + client.guilds.size + " servers", "with dragonfire535", "at the Inn", "with your heart", "with a knife", "with a murderous cow", ";help | dragonfire535", "with Cleverbot", "like a pirate", "with all my games", "against Miki", "with " + client.users.size + " Users"][Math.floor(Math.random() * 16)];
-    client.user.setGame(games);
-}, 300000);
 
 client.once('ready', () => {
     console.log('[Ready] Logged in!');
-    client.user.setGame("Just Started Up!");
+    client.user.setGame(";help | dragonfire535");
 });
 
 client.login(config.token);

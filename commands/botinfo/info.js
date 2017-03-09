@@ -30,43 +30,43 @@ class InfoCommand extends commando.Command {
             if (seconds < 10) seconds = "0" + seconds;
             return hours + ":" + minutes + ":" + seconds;
         };
-        const embed = new Discord.RichEmbed()
-        .setTitle('Welcome to XiaoBot!')
-        .setAuthor(this.client.user.username, this.client.user.avatarURL)
-        .setColor(0x00AE86)
-        .setDescription('XiaoBot is your personal companion for your Discord Server!')
-        .setFooter('©2017 dragonfire535', this.client.user.avatarURL)
-        .setThumbnail(this.client.user.avatarURL)
-        .setURL('http://dragonfire535.tk')
-        .addField('Commands',
-        "There are a variety of commands XiaoBot can use! Use ';help' to view a list of all commands!")
-        .addField('Servers',
-        this.client.guilds.size, true)
-        .addField('Users',
-        this.client.users.size, true)
-        .addField('Commands',
-        config.commandcount, true)
-        .addField('Owner',
-        "dragonfire535#8081", true)
-        .addField('Uptime',
-        toHHMMSS(process.uptime()), true)
-        .addField('Node Version',
-        "7.6.0", true)
-        .addField('Host',
-        "[Heroku](https://www.heroku.com/)", true)
-        .addField('Source Code',
-        "[View Here](https://github.com/dragonfire535/xiaobot)", true)
-        .addField('Lib', 
-        "[discord.js](https://discord.js.org/#/) (master)", true)
-        .addField('Modules',
-        "[Commando](https://github.com/Gawdl3y/discord.js-commando) (0.9.0), [cleverbot-node](https://github.com/fojas/cleverbot-node) (0.3.5), [pirate-speak](https://github.com/mikewesthad/pirate-speak) (1.0.1), [JIMP](https://github.com/oliver-moran/jimp) (0.2.27), [google-translate-api](https://github.com/matheuss/google-translate-api) (2.2.2), [urban](https://github.com/mvrilo/urban) (0.3.1), [zalgoize](https://github.com/clux/zalgolize) (1.2.4), [hepburn](https://github.com/lovell/hepburn) (1.0.0), [wikifakt](https://github.com/coffee-cup/wikifakt) (1.0.3), [yahoo-weather](https://github.com/mamal72/node-yahoo-weather) (2.2.2), [imdb-api](https://github.com/worr/node-imdb-api) (2.2.1), [request-promise](https://github.com/request/request-promise) (4.1.1)")
-        .addField('Other Credit',
-        "[Cleverbot API](https://www.cleverbot.com/api/), [Wattpad API](https://developer.wattpad.com/docs/api), [Wordnik API](http://developer.wordnik.com/docs.html), [osu! API](https://osu.ppy.sh/p/api)")
-        .addField('My Server',
-        "[Click Here to Join!](https://discord.gg/fqQF8mc)")
-        .addField('Invite Link:',
-        "[Click Here to Add Me to Your Server!](https://discordapp.com/oauth2/authorize?client_id=278305350804045834&scope=bot&permissions=519238)");
-        message.channel.sendEmbed(embed).catch(console.error);
+        let guilds = this.client.guilds.size;
+        let users = this.client.users.size;
+        this.client.shard.fetchClientValues('guilds.size').then(results => {
+            const embed = new Discord.RichEmbed()
+            .setTitle('Welcome to XiaoBot!')
+            .setAuthor(this.client.user.username, this.client.user.avatarURL)
+            .setColor(0x00AE86)
+            .setDescription('XiaoBot is your personal companion for your Discord Server!')
+            .setFooter('©2017 dragonfire535', this.client.user.avatarURL)
+            .setThumbnail(this.client.user.avatarURL)
+            .setURL('http://dragonfire535.weebly.com/xiaobot.html')
+            .addField('Commands',
+            "There are a variety of commands XiaoBot can use! Use ';help' to view a list of all commands!")
+            .addField('Servers',
+            guilds + "/" + results.reduce((prev, val) => prev + val, 0), true)
+            .addField('Shards',
+            this.client.options.shardCount + " (This is Shard: " + this.client.shard.id + ")", true)
+            .addField('Commands',
+            config.commandcount, true)
+            .addField('Owner',
+            "dragonfire535#8081", true)
+            .addField('Uptime',
+            toHHMMSS(process.uptime()), true)
+            .addField('Source Code',
+            "[View Here](https://github.com/dragonfire535/xiaobot)", true)
+            .addField('Lib', 
+            "[discord.js](https://discord.js.org/#/) (master)", true)
+            .addField('Modules',
+            "[Commando](https://github.com/Gawdl3y/discord.js-commando) (0.9.0), [cleverbot-node](https://github.com/fojas/cleverbot-node) (0.3.5), [pirate-speak](https://github.com/mikewesthad/pirate-speak) (1.0.1), [JIMP](https://github.com/oliver-moran/jimp) (0.2.27), [google-translate-api](https://github.com/matheuss/google-translate-api) (2.2.2), [urban](https://github.com/mvrilo/urban) (0.3.1), [zalgoize](https://github.com/clux/zalgolize) (1.2.4), [hepburn](https://github.com/lovell/hepburn) (1.0.0), [yahoo-weather](https://github.com/mamal72/node-yahoo-weather) (2.2.2), [imdb-api](https://github.com/worr/node-imdb-api) (2.2.1), [request-promise](https://github.com/request/request-promise) (4.1.1), [mathjs](http://mathjs.org/) (3.10.0)")
+            .addField('Other Credit',
+            "[Cleverbot API](https://www.cleverbot.com/api/), [Wattpad API](https://developer.wattpad.com/docs/api), [Wordnik API](http://developer.wordnik.com/docs.html), [osu! API](https://osu.ppy.sh/p/api), [memegen.link](https://memegen.link/), [Yugioh Prices API](http://docs.yugiohprices.apiary.io/#), [Heroku](https://www.heroku.com/)")
+            .addField('My Server',
+            "[Click Here to Join!](https://discord.gg/fqQF8mc)")
+            .addField('Invite Link:',
+            "[Click Here to Add Me to Your Server!](https://discordapp.com/oauth2/authorize?client_id=278305350804045834&scope=bot&permissions=519238)");
+            message.channel.sendEmbed(embed).catch(console.error);
+        });
     }
 }
  

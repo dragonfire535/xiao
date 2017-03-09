@@ -7,5 +7,6 @@
   "wordnikkey": "WordnikAPIKeyGoesHere",
   "owner": "BotOwnerIDGoesHere",
   "server": "BotHomeServerIDGoesHere",
-  "commandcount": "87"
+  "botid": "BotIDGoesHere",
+  "commandcount": "90"
 }
