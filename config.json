@@ -6,9 +6,10 @@
   "osukey": "osuAPIKeyGoesHere",
   "wattpadkey": "WattpadAPIKeyGoesHere",
   "wordnikkey": "WordnikAPIKeyGoesHere",
+  "youtubekey": "YouTubeAPIKeyGoesHere",
   "owner": "BotOwnerIDGoesHere",
   "server": "BotHomeServerIDGoesHere",
   "botid": "BotIDGoesHere",
   "webhook": "WebhookURLGoesHere",
-  "commandcount": "91"
+  "commandcount": "92"
 }
