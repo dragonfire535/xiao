@@ -9,5 +9,6 @@
   "owner": "BotOwnerIDGoesHere",
   "server": "BotHomeServerIDGoesHere",
   "botid": "BotIDGoesHere",
-  "commandcount": "90"
+  "webhook": "WebhookURLGoesHere",
+  "commandcount": "91"
 }
