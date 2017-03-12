@@ -7,9 +7,10 @@
   "wattpadkey": "WattpadAPIKeyGoesHere",
   "wordnikkey": "WordnikAPIKeyGoesHere",
   "youtubekey": "YouTubeAPIKeyGoesHere",
+  "mashapekey": "MashapeAPIKeyGoesHere",
   "owner": "BotOwnerIDGoesHere",
   "server": "BotHomeServerIDGoesHere",
   "botid": "BotIDGoesHere",
   "webhook": "WebhookURLGoesHere",
-  "commandcount": "92"
+  "commandcount": "93"
 }
