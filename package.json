@@ -5,7 +5,7 @@
   "main": "shardingmanager.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dragonfire535/xiaobot.git"
+    "url": "git+https://dragonfire535@bitbucket.org/dragonfire535/xiaobot.git"
   },
   "scripts": {
     "start": "node shardingmanager.js"
@@ -26,6 +26,7 @@
     "mathjs": "^3.10.0",
     "pirate-speak": "^1.0.1",
     "request-promise": "^4.1.1",
+    "string-to-binary": "^0.1.2",
     "urban": "^0.3.1",
     "yahoo-weather": "^2.2.2",
     "zalgolize": "^1.2.4"
