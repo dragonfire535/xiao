@@ -23,13 +23,16 @@ client.registry
     ['response', 'Random Response'],
     ['avataredit', 'Avatar Manipulation'],
     ['textedit', 'Text Manipulation'],
+    ['numedit', 'Number Manipulation'],
     ['imageedit', 'Image Manipulation'],
     ['search', 'Search'],
     ['random', 'Random/Other'],
     ['roleplay', 'Roleplay']
 ])
 .registerDefaultGroups()
-.registerDefaultCommands({prefix:false})
+.registerDefaultCommands({
+    prefix: false
+})
 .registerCommandsIn(path.join(__dirname, 'commands'));
 
 client.on('message', (message) => {
@@ -39,15 +42,6 @@ client.on('message', (message) => {
         console.log("[Command] " + message.content);
         console.log(client.guilds.array().length + " Servers: " + client.guilds.map(g => g.name + " (" + g.id + ")").join(", "));
         message.channel.sendMessage("Sent the information to the console!");
-    }
-    if(message.content.startsWith(';shards')) {
-        if(message.author.id !== config.owner) return;
-        message.channel.sendMessage(client.options.shardCount);
-    }
-    if(message.content.startsWith(';leave')) {
-        if(message.author.id !== config.owner) return;
-        console.log("[Command] " + message.content);
-        message.channel.sendMessage("Reminder: To leave a server, eval `this.client.guilds.get(<ID>).leave();`");
     }
     if(message.content.includes("(╯°□°）╯︵ ┻━┻")) {
         if(message.channel.type !== 'dm') {
@@ -80,11 +74,10 @@ client.on('message', (message) => {
     }
     if(message.channel.type !== 'dm') {
         if (message.content.startsWith("<@" + client.user.id + ">")){
-            if(message.guild.id === config.server) {
+            if(message.guild.id === config.server || message.author.id === config.owner) {
                 console.log("[Cleverbot] " + message.content);
                 if(message.author.id === clevusers.allowed[message.author.id]) {
                     let cleverMessage = message.content.replace("<@" + client.user.id + ">", "");
-                    cleverMessage = cleverMessage.replace("", '');
                     message.channel.startTyping();
                     cleverbot.write(cleverMessage, function (response) {
                         message.reply(response.output);

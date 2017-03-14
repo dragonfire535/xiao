@@ -12,5 +12,5 @@
   "server": "BotHomeServerIDGoesHere",
   "botid": "BotIDGoesHere",
   "webhook": "WebhookURLGoesHere",
-  "commandcount": "96"
+  "commandcount": "104"
 }

@@ -1,13 +1,13 @@
 const commando = require('discord.js-commando');
 
-class QuantumCoin extends commando.Command {
+class OffspringCommand extends commando.Command {
     constructor(Client){
         super(Client, {
-            name: 'quantumcoin', 
+            name: 'offspring', 
             group: 'response',
-            memberName: 'quantumcoin',
-            description: 'Flips a coin that lands on nothing. (;quantumcoin)',
-            examples: [';quantumcoin']
+            memberName: 'offspring',
+            description: 'Tells you if your new child is a boy or a girl. (;offspring)',
+            examples: [';offspring']
         });
     }
 
@@ -17,10 +17,10 @@ class QuantumCoin extends commando.Command {
             if(!message.channel.permissionsFor(this.client.user).hasPermission('READ_MESSAGES')) return;
         }
         console.log("[Command] " + message.content);
-        let qcoin = ['on nothing', 'on NaN', 'on 0', 'in the air', 'on null'];
-        qcoin = qcoin[Math.floor(Math.random() * qcoin.length)];
-        message.channel.sendMessage("It landed " + qcoin);
+        let gender = ['boy', 'girl'];
+        gender = gender[Math.floor(Math.random() * gender.length)];
+        message.channel.sendMessage("It's a " + gender + "!");
     }
 }
 
-module.exports = QuantumCoin;
+module.exports = OffspringCommand;
