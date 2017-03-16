@@ -37,16 +37,9 @@ client.registry
 
 client.on('message', (message) => {
     if(message.author.bot) return;
-    if(message.content.startsWith(';servers')) {
-        if(message.author.id !== config.owner) return;
-        console.log("[Command] " + message.content);
-        console.log(client.guilds.array().length + " Servers: " + client.guilds.map(g => g.name + " (" + g.id + ")").join(", "));
-        message.channel.send("Sent the information to the console!");
-    }
+    if(message.channel.type === 'dm') return;
     if(message.content.includes("(╯°□°）╯︵ ┻━┻")) {
-        if(message.channel.type !== 'dm') {
-            if(message.guild.id === "110373943822540800") return;
-        }
+        if(message.guild.id === "110373943822540800") return;
         console.log("[Command] " + message.content);
         message.channel.send("Calm down!   ┬─┬ ノ( ゜-゜ノ)");
     }
@@ -54,38 +47,18 @@ client.on('message', (message) => {
         if(message.guild.id !== config.server) return;
         message.channel.send(message.guild.emojis.get('254827709459333120').toString());
     }
-    if (message.content.startsWith(';rinsay')) {
-        if (message.author.id !== config.owner) return;
-        let messagecontent = message.content.split(" ").slice(1).join(" ");
-        message.delete();
-        const sendPOST = {
-            method: 'POST',
-            uri: config.webhook,
-            body: {
-                content: messagecontent
-            },
-            json: true
-        }
-        request(sendPOST).then(function (parsedBody) {
-            console.log('[Rin] ' + messagecontent);
-        }).catch(function (err) {
-            console.log(err);
-        });
-    }
-    if(message.channel.type !== 'dm') {
-        if (message.content.startsWith("<@" + client.user.id + ">")){
-            if(message.guild.id === config.server || message.author.id === config.owner) {
-                console.log("[Cleverbot] " + message.content);
-                if(message.author.id === clevusers.allowed[message.author.id]) {
-                    let cleverMessage = message.content.replace("<@" + client.user.id + ">", "");
-                    message.channel.startTyping();
-                    cleverbot.write(cleverMessage, function (response) {
-                        message.reply(response.output);
-                        message.channel.stopTyping();
-                    });
-                } else {
-                    message.channel.send(":x: Error! You are either not verified for Cleverbot, or banned from it. Please check #rules for a link to the forum to sign-up for Cleverbot.");
-                }
+    if (message.content.startsWith("<@" + client.user.id + ">")){
+        if(message.guild.id === config.server || message.author.id === config.owner) {
+            console.log("[Cleverbot] " + message.content);
+            if(message.author.id === clevusers.allowed[message.author.id]) {
+                let cleverMessage = message.content.replace("<@" + client.user.id + ">", "");
+                message.channel.startTyping();
+                cleverbot.write(cleverMessage, function (response) {
+                    message.reply(response.output);
+                    message.channel.stopTyping();
+                });
+            } else {
+                message.channel.send(":x: Error! You are either not verified for Cleverbot, or banned from it. Please check #rules for a link to the forum to sign-up for Cleverbot.");
             }
         }
     }
@@ -178,13 +151,17 @@ client.on('guildDelete', guild => {
     });
 });
 
+client.on('disconnect', () => {
+    process.exit(0);
+});
+
 client.once('ready', () => {
     console.log('[Ready] Logged in!');
     client.user.setGame(";help | dragonfire535");
 });
 
 process.on('unhandledRejection', function(reason, p){
-    console.log("A Possibly Unhandled Rejection has Occurred.");
+    console.log("A Possibly Unhandled Rejection has Occurred. " + reason);
 });
 
 client.login(config.token);
