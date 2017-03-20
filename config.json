@@ -10,7 +10,8 @@
   "mashapekey": "MashapeAPIKeyGoesHere",
   "owner": "BotOwnerIDGoesHere",
   "server": "BotHomeServerIDGoesHere",
+  "personalServer": "PersonalServerIDGoesHere",
   "botid": "BotIDGoesHere",
   "webhook": "WebhookURLGoesHere",
-  "commandcount": "105"
+  "commandcount": "107"
 }
