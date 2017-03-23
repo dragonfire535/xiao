@@ -1,8 +1,6 @@
-const Discord = require('discord.js');
 const commando = require('discord.js-commando');
+const request = require('superagent');
 const config = require('./config.json');
-const request = require('request-promise');
-const clevusers = require('./clevusers.json');
 const client = new commando.Client({
     commandPrefix: ';',
     unknownCommandResponse: false,
@@ -10,151 +8,131 @@ const client = new commando.Client({
 });
 const Cleverbot = require('cleverbot-node');
 const cleverbot = new Cleverbot;
-cleverbot.configure({botapi: config.clevkey});
+cleverbot.configure({
+    botapi: config.clevkey
+});
+const clevusers = require('./clevusers.json');
 const path = require('path');
 
 client.registry
-.registerDefaultTypes()
-.registerGroups([
-    ['botinfo', 'Bot Info'],
-    ['userinfo', 'User Info'],
-    ['guildinfo', 'Server Info'],
-    ['moderation', 'Moderation'],
-    ['response', 'Random Response'],
-    ['avataredit', 'Avatar Manipulation'],
-    ['textedit', 'Text Manipulation'],
-    ['numedit', 'Number Manipulation'],
-    ['imageedit', 'Image Manipulation'],
-    ['search', 'Search'],
-    ['random', 'Random/Other'],
-    ['roleplay', 'Roleplay']
-])
-.registerDefaultGroups()
-.registerDefaultCommands({
-    prefix: false
-})
-.registerCommandsIn(path.join(__dirname, 'commands'));
+    .registerDefaultTypes()
+    .registerGroups([
+        ['botinfo', 'Bot Info'],
+        ['userinfo', 'User Info'],
+        ['guildinfo', 'Server Info'],
+        ['moderation', 'Moderation'],
+        ['response', 'Random Response'],
+        ['avataredit', 'Avatar Manipulation'],
+        ['textedit', 'Text Manipulation'],
+        ['numedit', 'Number Manipulation'],
+        ['imageedit', 'Image Manipulation'],
+        ['search', 'Search'],
+        ['random', 'Random/Other'],
+        ['roleplay', 'Roleplay']
+    ])
+    .registerDefaultGroups()
+    .registerDefaultCommands({
+        prefix: false
+    })
+    .registerCommandsIn(path.join(__dirname, 'commands'));
 
 client.on('message', (message) => {
-    if(message.author.bot) return;
-    if(message.channel.type === 'dm') return;
-    if(message.content.includes("(╯°□°）╯︵ ┻━┻")) {
-        if(message.guild.id === "110373943822540800") return;
-        console.log("[Command] " + message.content);
-        message.channel.send("Calm down!   ┬─┬ ノ( ゜-゜ノ)");
-    }
-    if(message.content.includes(":Swagolor:")) {
-        if(message.guild.id !== config.server) return;
-        message.react(message.guild.emojis.get('254827709459333120'));
-    }
-    if (message.content.startsWith("<@" + client.user.id + ">")){
-        if(message.guild.id === config.server || message.author.id === config.owner || message.guild.id === config.personalServer) {
-            console.log("[Cleverbot] " + message.content);
-            if(message.author.id === clevusers.allowed[message.author.id] || message.guild.id === config.personalServer) {
-                let cleverMessage = message.content.replace("<@" + client.user.id + ">", "");
+    if (message.author.bot) return;
+    if (message.channel.type === 'dm') return;
+    if (message.content.startsWith(`<@${client.user.id}>`)) {
+        if (message.guild.id === config.server || message.guild.id === config.personalServer || message.author.id === config.owner) {
+            if (message.author.id === clevusers.allowed[message.author.id]) {
+                let cleverMessage = message.content.replace(`<@${client.user.id}>`, "");
+                console.log(`[Cleverbot] ${cleverMessage}`);
                 message.channel.startTyping();
-                cleverbot.write(cleverMessage, function (response) {
+                cleverbot.write(cleverMessage, function(response) {
                     message.reply(response.output);
                     message.channel.stopTyping();
                 });
-            } else {
-                message.channel.send(":x: Error! You are either not verified for Cleverbot, or banned from it. Please check <#274669940852785152> for a link to the forum to sign-up for Cleverbot.");
             }
         }
     }
 });
 
 client.on('guildMemberAdd', member => {
-    if(member.guild.id !== config.server) return;
+    if (member.guild.id !== config.server) return;
     member.addRole(member.guild.roles.find('name', 'Members'));
-    let username = member.user.username;
-    member.guild.defaultChannel.send('Welcome ' + username + '!');
+    let addedMemberName = member.user.username;
+    member.guild.channels.get(config.announcementChannel).send(`Welcome ${addedMemberName}!`);
 });
 
 client.on('guildMemberRemove', member => {
-    if(member.guild.id !== config.server) return;
-    let username = member.user.username;
-    member.guild.defaultChannel.send('Bye ' + username + '...');
+    if (member.guild.id !== config.server) return;
+    let removedMemberName = member.user.username;
+    member.guild.channels.get(config.announcementChannel).send(`Bye ${removedMemberName}...`);
 });
 
 client.on('guildCreate', guild => {
-    console.log("[Guild] I have joined the guild: " + guild.name + ", " + guild.owner.user.username + " (" + guild.id + ")!");
-    client.guilds.get(config.server).channels.get('265503171835592704').send("I have joined the guild: " + guild.name + " (Owner: " + guild.owner.user.username + ")!");
+    console.log(`[Guild] I have joined the guild: ${guild.name}, Owned by: ${guild.owner.user.username} (${guild.id})!`);
+    client.guilds.get(config.server).channels.get(config.announcementChannel).send(`I have joined the server: ${guild.name}, Owned by: ${guild.owner.user.username} (${guild.id})!`);
     client.shard.fetchClientValues('guilds.size').then(results => {
-        console.log("[Guild Count] " + results.reduce((prev, val) => prev + val, 0));
-        const carbonPOST = {
-            method: 'POST',
-            uri: 'https://www.carbonitex.net/discord/data/botdata.php',
-            body: {
+        console.log(`[Guild Count] ${results.reduce((prev, val) => prev + val, 0)}`);
+        request
+            .post('https://www.carbonitex.net/discord/data/botdata.php')
+            .send({
                 key: config.carbonkey,
                 servercount: results.reduce((prev, val) => prev + val, 0)
-            },
-            json: true
-        }
-        const DBotsPOST = {
-            method: 'POST',
-            uri: 'https://bots.discord.pw/api/bots/' + config.botid + '/stats',
-            body: {
+            })
+            .then(function(parsedBody) {
+                console.log('[Carbon] Successfully posted to Carbon.');
+            }).catch(function(err) {
+                console.log(`[Carbon] Failed to post to Carbon. ${err}`);
+            });
+        request
+            .post(`https://bots.discord.pw/api/bots/${config.botID}/stats`)
+            .set({
+                'Authorization': config.botskey
+            })
+            .send({
                 server_count: results.reduce((prev, val) => prev + val, 0)
-            },
-  	        headers: {
-    	        'Authorization': config.botskey
-            },
-            json: true
-        }
-        request(carbonPOST).then(function (parsedBody) {
-            console.log('[Carbon] Successfully posted to Carbon.');
-        }).catch(function (err) {
-            console.log("[Carbon] Failed to post to Carbon.");
-        });
-        request(DBotsPOST).then(function (parsedBody) {
-            console.log('[Discord Bots] Successfully posted to Discord Bots.');
-        }).catch(function (err) {
-            console.log("[Discord Bots] Failed to post to Discord Bots.");
-        });
+            })
+            .then(function(parsedBody) {
+                console.log('[Discord Bots] Successfully posted to Discord Bots.');
+            }).catch(function(err) {
+                console.log(`[Discord Bots] Failed to post to Discord Bots. ${err}`);
+            });
     });
 });
 
 client.on('guildDelete', guild => {
-    console.log("[Guild] I have left the guild: " + guild.name + ", " + guild.owner.user.username + " (" + guild.id + ")...");
-    client.guilds.get(config.server).channels.get('265503171835592704').send("I have left the guild: " + guild.name + " (Owner: " + guild.owner.user.username + ")...");
+    console.log(`[Guild] I have left the guild: ${guild.name}, Owned by: ${guild.owner.user.username} (${guild.id})...`);
+    client.guilds.get(config.server).channels.get(config.announcementChannel).send(`I have left the server: ${guild.name}, Owned by: ${guild.owner.user.username} (${guild.id})...`);
     client.shard.fetchClientValues('guilds.size').then(results => {
-        console.log("[Guild Count] " + results.reduce((prev, val) => prev + val, 0));
-        const carbonPOST = {
-            method: 'POST',
-            uri: 'https://www.carbonitex.net/discord/data/botdata.php',
-            body: {
+        console.log(`[Guild Count] ${results.reduce((prev, val) => prev + val, 0)}`);
+        request
+            .post('https://www.carbonitex.net/discord/data/botdata.php')
+            .send({
                 key: config.carbonkey,
                 servercount: results.reduce((prev, val) => prev + val, 0)
-            },
-            json: true
-        }
-        const DBotsPOST = {
-            method: 'POST',
-            uri: 'https://bots.discord.pw/api/bots/' + config.botid + '/stats',
-            body: {
+            })
+            .then(function(parsedBody) {
+                console.log('[Carbon] Successfully posted to Carbon.');
+            }).catch(function(err) {
+                console.log(`[Carbon] Failed to post to Carbon. ${err}`);
+            });
+        request
+            .post(`https://bots.discord.pw/api/bots/${config.botID}/stats`)
+            .set({
+                'Authorization': config.botskey
+            })
+            .send({
                 server_count: results.reduce((prev, val) => prev + val, 0)
-            },
-  	        headers: {
-    	        'Authorization': config.botskey
-            },
-            json: true
-        }
-        request(carbonPOST).then(function (parsedBody) {
-            console.log('[Carbon] Successfully posted to Carbon.');
-        }).catch(function (err) {
-            console.log("[Carbon] Failed to post to Carbon.");
-        });
-        request(DBotsPOST).then(function (parsedBody) {
-            console.log('[Discord Bots] Successfully posted to Discord Bots.');
-        }).catch(function (err) {
-            console.log("[Discord Bots] Failed to post to Discord Bots.");
-        });
+            })
+            .then(function(parsedBody) {
+                console.log('[Discord Bots] Successfully posted to Discord Bots.');
+            }).catch(function(err) {
+                console.log(`[Discord Bots] Failed to post to Discord Bots. ${err}`);
+            });
     });
 });
 
 client.on('disconnect', () => {
-    console.log('[Disconnect] A disconnection has occurred. Attempting to reboot...').then(p => process.exit(0));
+    process.exit(0);
 });
 
 client.once('ready', () => {
@@ -162,8 +140,8 @@ client.once('ready', () => {
     client.user.setGame(";help | dragonfire535");
 });
 
-process.on('unhandledRejection', function (reason, p) {
-    console.log("[Error] A Possibly Unhandled Rejection has Occurred. " + reason);
+process.on('unhandledRejection', function(reason, p) {
+    console.log(`[Error] A Possibly Unhandled Rejection has Occurred. ${reason}`);
 });
 
 client.login(config.token);

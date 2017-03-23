@@ -1,10 +1,10 @@
 const commando = require('discord.js-commando');
 const romanNumeralConverter = require('roman-numeral-converter-mmxvi');
 
-class RomanCommand extends commando.Command {
-    constructor(Client){
+module.exports = class RomanCommand extends commando.Command {
+    constructor(Client) {
         super(Client, {
-            name: 'roman', 
+            name: 'roman',
             group: 'numedit',
             memberName: 'roman',
             description: 'Converts numbers to Roman Numerals. (;roman 2)',
@@ -12,20 +12,18 @@ class RomanCommand extends commando.Command {
         });
     }
 
-    async run(message, args) {
-        if(message.channel.type !== 'dm') {
-            if(!message.channel.permissionsFor(this.client.user).hasPermission('SEND_MESSAGES')) return;
-            if(!message.channel.permissionsFor(this.client.user).hasPermission('READ_MESSAGES')) return;
+    async run(message) {
+        if (message.channel.type !== 'dm') {
+            if (!message.channel.permissionsFor(this.client.user).hasPermission(['SEND_MESSAGES', 'READ_MESSAGES'])) return;
         }
-        console.log("[Command] " + message.content);
-        let messagecontent = message.content.split(" ").slice(1).join(" ");
-        let numberified = Number(messagecontent);
-        if(numberified > 1000000) {
+        console.log(`[Command] ${message.content}`);
+        let numberToRoman = message.content.split(" ").slice(1).join(" ");
+        let romanInterger = Number(numberToRoman);
+        if (romanInterger > 1000000) {
             message.channel.send(':x: Error! Number is too high!');
-        } else {
-            message.channel.send(romanNumeralConverter.getRomanFromInteger(numberified)).catch(error => message.channel.send(':x: Error! Something went wrong! Perhaps you entered nothing?'));
+        }
+        else {
+            message.channel.send(romanNumeralConverter.getRomanFromInteger(romanInterger)).catch(error => message.channel.send(':x: Error! Something went wrong! Perhaps you entered nothing?'));
         }
     }
-}
-
-module.exports = RomanCommand;
+};

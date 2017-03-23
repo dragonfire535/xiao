@@ -1,9 +1,21 @@
 const commando = require('discord.js-commando');
 
-class ShuffleCommand extends commando.Command {
-    constructor(Client){
+String.prototype.shuffle = function() {
+    let a = this.split(""),
+        n = a.length;
+    for (let i = n - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        let tmp = a[i];
+        a[i] = a[j];
+        a[j] = tmp;
+    }
+    return a.join("");
+};
+
+module.exports = class ShuffleCommand extends commando.Command {
+    constructor(Client) {
         super(Client, {
-            name: 'shuffle', 
+            name: 'shuffle',
             group: 'textedit',
             memberName: 'shuffle',
             description: 'Shuffles text (;shuffle This Text)',
@@ -11,30 +23,17 @@ class ShuffleCommand extends commando.Command {
         });
     }
 
-    async run(message, args) {
-        if(message.channel.type !== 'dm') {
-            if(!message.channel.permissionsFor(this.client.user).hasPermission('SEND_MESSAGES')) return;
-            if(!message.channel.permissionsFor(this.client.user).hasPermission('READ_MESSAGES')) return;
+    async run(message) {
+        if (message.channel.type !== 'dm') {
+            if (!message.channel.permissionsFor(this.client.user).hasPermission(['SEND_MESSAGES', 'READ_MESSAGES'])) return;
         }
-        console.log("[Command] " + message.content);
-        String.prototype.shuffle = function () {
-            var a = this.split(""),
-            n = a.length;
-            for(var i = n - 1; i > 0; i--) {
-                var j = Math.floor(Math.random() * (i + 1));
-                var tmp = a[i];
-                a[i] = a[j];
-                a[j] = tmp;
-            }
-            return a.join("");
-        }
-        let shuffled = message.content.split(" ").slice(1).join(" ");
-        if(shuffled === '') {
+        console.log(`[Command] ${message.content}`);
+        let thingToShuffle = message.content.split(" ").slice(1).join(" ");
+        if (!thingToShuffle) {
             message.channel.send(":x: Error! Nothing to shuffle!");
-        } else {
-            message.channel.send(shuffled.shuffle());
+        }
+        else {
+            message.channel.send(thingToShuffle.shuffle());
         }
     }
-}
-
-module.exports = ShuffleCommand;
+};

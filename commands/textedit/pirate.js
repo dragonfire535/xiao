@@ -1,10 +1,14 @@
 const commando = require('discord.js-commando');
 const pirateSpeak = require('pirate-speak');
 
-class PirateCommand extends commando.Command {
-    constructor(Client){
+module.exports = class PirateCommand extends commando.Command {
+    constructor(Client) {
         super(Client, {
-            name: 'pirate', 
+            name: 'pirate',
+            aliases: [
+                'piratespeak',
+                'yarr'
+            ],
             group: 'textedit',
             memberName: 'pirate',
             description: 'Talk like a pirate! (;pirate This is being said like a pirate!)',
@@ -12,24 +16,23 @@ class PirateCommand extends commando.Command {
         });
     }
 
-    async run(message, args) {
-        if(message.channel.type !== 'dm') {
-            if(!message.channel.permissionsFor(this.client.user).hasPermission('SEND_MESSAGES')) return;
-            if(!message.channel.permissionsFor(this.client.user).hasPermission('READ_MESSAGES')) return;
+    async run(message) {
+        if (message.channel.type !== 'dm') {
+            if (!message.channel.permissionsFor(this.client.user).hasPermission(['SEND_MESSAGES', 'READ_MESSAGES'])) return;
         }
-        console.log("[Command] " + message.content);
-        let messagecontent = message.content.split(" ").slice(1).join(" ");
-        let pirate = pirateSpeak.translate(messagecontent);
-        if(messagecontent === "") {
+        console.log(`[Command] ${message.content}`);
+        let turnToPirate = message.content.split(" ").slice(1).join(" ");
+        let pirate = pirateSpeak.translate(turnToPirate);
+        if (!turnToPirate) {
             message.channel.send(":x: Error! Nothing to translate!");
-        } else {
-            if(pirate.length > 1950) {
+        }
+        else {
+            if (pirate.length > 1950) {
                 message.channel.send(":x: Error! Your message is too long!");
-            } else {
+            }
+            else {
                 message.channel.send(pirate);
             }
         }
     }
-}
-
-module.exports = PirateCommand;
+};

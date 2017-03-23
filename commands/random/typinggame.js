@@ -1,10 +1,10 @@
 const commando = require('discord.js-commando');
 const Discord = require('discord.js');
 
-class TypingGameCommand extends commando.Command {
-    constructor(Client){
+module.exports = class TypingGameCommand extends commando.Command {
+    constructor(Client) {
         super(Client, {
-            name: 'typinggame', 
+            name: 'typinggame',
             group: 'random',
             memberName: 'typinggame',
             description: 'See how fast you can type a sentence in a given time limit. (;typinggame easy)',
@@ -12,52 +12,51 @@ class TypingGameCommand extends commando.Command {
         });
     }
 
-    async run(message, args) {
-        if(message.channel.type !== 'dm') {
-            if(!message.channel.permissionsFor(this.client.user).hasPermission('SEND_MESSAGES')) return;
-            if(!message.channel.permissionsFor(this.client.user).hasPermission('READ_MESSAGES')) return;
-            if(!message.channel.permissionsFor(this.client.user).hasPermission('EMBED_LINKS')) return;
+    async run(message) {
+        if (message.channel.type !== 'dm') {
+            if (!message.channel.permissionsFor(this.client.user).hasPermission(['SEND_MESSAGES', 'READ_MESSAGES', 'EMBED_LINKS'])) return;
         }
-        console.log("[Command] " + message.content);
+        console.log(`[Command] ${message.content}`);
         let [level] = message.content.toLowerCase().split(" ").slice(1);
         let randomSentence = ['The quick brown fox jumps over the lazy dog.', 'Buffalo buffalo Buffalo buffalo buffalo buffalo Buffalo buffalo.', 'How razorback-jumping frogs can level six piqued gymnasts!', 'Amazingly few discotheques provide jukeboxes.'];
         randomSentence = randomSentence[Math.floor(Math.random() * randomSentence.length)];
         let time;
         switch (level) {
             case "easy":
-            time = 25000;
-            break;
+                time = 25000;
+                break;
             case "medium":
-            time = 20000;
-            break;
+                time = 20000;
+                break;
             case "hard":
-            time = 15000;
-            break;
-            case "extreme": 
-            time = 10000;
-            break;
+                time = 15000;
+                break;
+            case "extreme":
+                time = 10000;
+                break;
         }
         let levelWord;
         switch (level) {
             case "easy":
-            levelWord = "twenty-five";
-            break;
+                levelWord = "twenty-five";
+                break;
             case "medium":
-            levelWord = "twenty";
-            break;
+                levelWord = "twenty";
+                break;
             case "hard":
-            levelWord = "fifteen";
-            break;
-            case "extreme": 
-            levelWord = "ten";
-            break;
+                levelWord = "fifteen";
+                break;
+            case "extreme":
+                levelWord = "ten";
+                break;
         }
-        if(time === undefined) {
+        if (!time) {
             message.channel.send(':x: Error! No difficulty set! (Choose Easy, Medium, Hard, or Extreme)');
-        } else {
+        }
+        else {
             const embed = new Discord.RichEmbed()
-            .setTitle('You have **' + levelWord + '** seconds to type:')
-            .setDescription(randomSentence);
+                .setTitle('You have **' + levelWord + '** seconds to type:')
+                .setDescription(randomSentence);
             message.channel.sendEmbed(embed).then(() => {
                 message.channel.awaitMessages(response => response.content === randomSentence && response.author.id === message.author.id, {
                     max: 1,
@@ -71,6 +70,4 @@ class TypingGameCommand extends commando.Command {
             });
         }
     }
-}
-
-module.exports = TypingGameCommand;
+};

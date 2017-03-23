@@ -1,10 +1,13 @@
 const commando = require('discord.js-commando');
 const Jimp = require("jimp");
 
-class YearsCommand extends commando.Command {
-    constructor(Client){
+module.exports = class YearsCommand extends commando.Command {
+    constructor(Client) {
         super(Client, {
-            name: '3000years', 
+            name: '3000years',
+            aliases: [
+                'az'
+            ],
             group: 'avataredit',
             memberName: '3000years',
             description: "It's been 3000 years... (;3000years @User)",
@@ -12,24 +15,24 @@ class YearsCommand extends commando.Command {
         });
     }
 
-    async run(message, args) {
-        if(message.channel.type !== 'dm') {
-            if(!message.channel.permissionsFor(this.client.user).hasPermission('SEND_MESSAGES')) return;
-            if(!message.channel.permissionsFor(this.client.user).hasPermission('READ_MESSAGES')) return;
-            if(!message.channel.permissionsFor(this.client.user).hasPermission('ATTACH_FILES')) return;
+    async run(message) {
+        if (message.channel.type !== 'dm') {
+            if (!message.channel.permissionsFor(this.client.user).hasPermission(['SEND_MESSAGES', 'READ_MESSAGES', 'ATTACH_FILES'])) return;
         }
-        console.log("[Command] " + message.content);
+        console.log(`[Command] ${message.content}`);
         if (message.mentions.users.size !== 1) {
-            message.channel.send(':x: Either too many or no members, only mention one person!');
-        } else {
-            if(message.mentions.users.first().avatarURL === null) {
-                message.channel.send(":x: This person has no avatar!");
-            } else {
-                let avatarurl = message.mentions.users.first().avatarURL;
-                avatarurl = avatarurl.replace(".jpg", ".png");
-                avatarurl = avatarurl.replace(".gif", ".png");
+            message.channel.send(':x: Error! Please mention one user!');
+        }
+        else {
+            if (!message.mentions.users.first().avatarURL) {
+                message.channel.send(":x: Error! This user has no avatar!");
+            }
+            else {
+                let userAvatar = message.mentions.users.first().avatarURL;
+                userAvatar = userAvatar.replace(".jpg", ".png");
+                userAvatar = userAvatar.replace(".gif", ".png");
                 let images = [];
-                images.push(Jimp.read(avatarurl));
+                images.push(Jimp.read(userAvatar));
                 images.push(Jimp.read("./images/3000years.png"));
                 Promise.all(images).then(([avatar, years]) => {
                     avatar.resize(200, 200);
@@ -42,6 +45,4 @@ class YearsCommand extends commando.Command {
             }
         }
     }
-}
-
-module.exports = YearsCommand;
+};

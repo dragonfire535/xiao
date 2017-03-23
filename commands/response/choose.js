@@ -1,32 +1,31 @@
 const commando = require('discord.js-commando');
 
-class ChooseCommand extends commando.Command {
-    constructor(Client){
+module.exports = class ChooseCommand extends commando.Command {
+    constructor(Client) {
         super(Client, {
-            name: 'choose', 
+            name: 'choose',
+            aliases: [
+                'pick'
+            ],
             group: 'response',
             memberName: 'choose',
-            description: 'Chooses between two things. (;choose Cow | Sheep)',
-            examples: [';choose Cow | Sheep']
+            description: 'Chooses between things. (;choose Cow | Sheep)',
+            examples: [';choose Cow | Sheep', ';choose Bark | Woof | Meow | Moo']
         });
     }
 
-    async run(message, args) {
-        if(message.channel.type !== 'dm') {
-            if(!message.channel.permissionsFor(this.client.user).hasPermission('SEND_MESSAGES')) return;
-            if(!message.channel.permissionsFor(this.client.user).hasPermission('READ_MESSAGES')) return;
+    async run(message) {
+        if (message.channel.type !== 'dm') {
+            if (!message.channel.permissionsFor(this.client.user).hasPermission(['SEND_MESSAGES', 'READ_MESSAGES'])) return;
         }
-        console.log("[Command] " + message.content);
-        if(message.content.includes("|")) {
-            let choice2 = message.content.split("|").slice(1).join(" ");
-            let choice1 = " " + message.content.replace(choice2, "").split(" ").slice(1).join(" ");
-            let coin = [choice1, choice2];
-            coin = coin[Math.floor(Math.random() * coin.length)];
-            message.channel.send("I choose" + coin.replace("|", ""));
-        } else {
+        console.log(`[Command] ${message.content}`);
+        if (message.content.includes(" | ")) {
+            let choices = message.content.split(" ").slice(1).join(" ").split(' | ');
+            choices = choices[Math.floor(Math.random() * choices.length)];
+            message.channel.send(`I choose ${choices}!`);
+        }
+        else {
             message.channel.send(":x: Split your two choices with a ' | '!");
         }
     }
-}
-
-module.exports = ChooseCommand;
+};

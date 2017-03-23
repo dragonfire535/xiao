@@ -1,12 +1,17 @@
 const commando = require('discord.js-commando');
 const Discord = require('discord.js');
 const config = require('../../config.json');
-const request = require('request-promise');
+const request = require('superagent');
 
-class OsuCommand extends commando.Command {
-    constructor(Client){
+module.exports = class OsuCommand extends commando.Command {
+    constructor(Client) {
         super(Client, {
-            name: 'osu', 
+            name: 'osu',
+            aliases: [
+                'osuuser',
+                'osudata',
+                'osuinfo'
+            ],
             group: 'search',
             memberName: 'osu',
             description: 'Searches Osu user data. (;osu dragonfire535)',
@@ -14,62 +19,56 @@ class OsuCommand extends commando.Command {
         });
     }
 
-    async run(message, args) {
-        if(message.channel.type !== 'dm') {
-            if(!message.channel.permissionsFor(this.client.user).hasPermission('SEND_MESSAGES')) return;
-            if(!message.channel.permissionsFor(this.client.user).hasPermission('READ_MESSAGES')) return;
-            if(!message.channel.permissionsFor(this.client.user).hasPermission('EMBED_LINKS')) return;
+    async run(message) {
+        if (message.channel.type !== 'dm') {
+            if (!message.channel.permissionsFor(this.client.user).hasPermission(['SEND_MESSAGES', 'READ_MESSAGES', 'EMBED_LINKS'])) return;
         }
-        console.log("[Command] " + message.content);
-        let usernametosearch = message.content.split(" ").slice(1).join(" ");
-        const options = {
-	        method: 'GET',
-	        uri: 'https://osu.ppy.sh/api/get_user',
-	        qs: {
-    	        k: config.osukey,
-                u: usernametosearch,
-                type: "string"
-  	        },
-  	        json: true
-        }
-        request(options).then(function (response) {
-            if(response[0] === undefined) {
-                message.channel.send(":x: Error! User not found!");
-            } else {
-                const embed = new Discord.RichEmbed()
-                .setColor(0xFF66AA)
-                .setAuthor('osu!', 'http://vignette3.wikia.nocookie.net/osugame/images/c/c9/Logo.png/revision/latest?cb=20151219073209')
-                .setURL('https://osu.ppy.sh/')
-                .addField('**Username:**',
-                response[0].username, true)
-                .addField('**ID:**',
-                response[0].user_id, true)
-                .addField('**Level:**',
-                response[0].level, true)
-                .addField('**Accuracy**',
-                response[0].accuracy, true)
-                .addField('**Rank:**',
-                response[0].pp_rank, true)
-                .addField('**Play Count:**',
-                response[0].playcount, true)
-                .addField('**Country:**',
-                response[0].country, true)
-                .addField('**Ranked Score:**',
-                response[0].ranked_score, true)
-                .addField('**Total Score:**',
-                response[0].total_score, true)
-                .addField('**SS:**',
-                response[0].count_rank_ss, true)
-                .addField('**S:**',
-                response[0].count_rank_s, true)
-                .addField('**A:**',
-                response[0].count_rank_a, true);
-                message.channel.sendEmbed(embed).catch(console.error);
-            }
-        }).catch(function (err) {
-            message.channel.send(":x: Error! User not Found!");
-        });
+        console.log(`[Command] ${message.content}`);
+        let usernameToSearch = message.content.split(" ").slice(1).join(" ");
+        request
+            .get('https://osu.ppy.sh/api/get_user')
+            .query({
+                k: config.osukey,
+                u: usernameToSearch,
+                type: 'string'
+            })
+            .then(function(response) {
+                if (!response.body[0]) {
+                    message.channel.send(":x: Error! User not found!");
+                }
+                else {
+                    const embed = new Discord.RichEmbed()
+                        .setColor(0xFF66AA)
+                        .setAuthor('osu!', 'http://vignette3.wikia.nocookie.net/osugame/images/c/c9/Logo.png/revision/latest?cb=20151219073209')
+                        .setURL('https://osu.ppy.sh/')
+                        .addField('**Username:**',
+                            response.body[0].username, true)
+                        .addField('**ID:**',
+                            response.body[0].user_id, true)
+                        .addField('**Level:**',
+                            response.body[0].level, true)
+                        .addField('**Accuracy**',
+                            response.body[0].accuracy, true)
+                        .addField('**Rank:**',
+                            response.body[0].pp_rank, true)
+                        .addField('**Play Count:**',
+                            response.body[0].playcount, true)
+                        .addField('**Country:**',
+                            response.body[0].country, true)
+                        .addField('**Ranked Score:**',
+                            response.body[0].ranked_score, true)
+                        .addField('**Total Score:**',
+                            response.body[0].total_score, true)
+                        .addField('**SS:**',
+                            response.body[0].count_rank_ss, true)
+                        .addField('**S:**',
+                            response.body[0].count_rank_s, true)
+                        .addField('**A:**',
+                            response.body[0].count_rank_a, true);
+                    message.channel.sendEmbed(embed).catch(console.error);
+                }
+            }).catch(function(err) {
+                message.channel.send(":x: Error! User not Found!");
+            });
     }
-}
-
-module.exports = OsuCommand;
+};
