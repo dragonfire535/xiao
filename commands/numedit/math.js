@@ -26,10 +26,15 @@ module.exports = class MathCommand extends commando.Command {
         let expression = message.content.split(" ").slice(1).join(" ");
         try {
             let solved = math.eval(expression);
-            return message.channel.send(solved).catch(error => message.channel.send(":x: Error! Invalid statement!"));
+            try {
+                message.channel.send(solved);
+            }
+            catch (err) {
+                message.channel.send(":x: Error! Invalid statement!");
+            }
         }
         catch (err) {
-            return message.channel.send(":x: Error! Invalid statement!");
+            message.channel.send(":x: Error! Invalid statement!");
         }
     }
 };

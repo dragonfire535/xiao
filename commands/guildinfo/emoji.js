@@ -22,10 +22,10 @@ module.exports = class EmojiCommand extends commando.Command {
         }
         console.log(`[Command] ${message.content}`);
         if (message.channel.type !== 'dm') {
-            return message.channel.send(message.guild.emojis.map(e => e).join(" "));
+            message.channel.send(message.guild.emojis.map(e => e).join(" "));
         }
         else {
-            return message.channel.send(":x: Error! This command does not work in DM!");
+            message.channel.send(":x: Error! This command does not work in DM!");
         }
     }
 };
