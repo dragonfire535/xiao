@@ -7,25 +7,33 @@ module.exports = class RockPaperScissors extends commando.Command {
             aliases: [
                 'rockpaperscissors'
             ],
-            group: 'response',
+            group: 'games',
             memberName: 'rps',
             description: 'Play Rock Paper Scissors (;rps Rock)',
-            examples: [';rps Rock']
+            examples: [';rps Rock'],
+            args: [{
+                key: 'choice',
+                prompt: 'Rock, Paper, or Scissors?',
+                type: 'string',
+                validate: rps => {
+                    if (rps.toLowerCase() === 'rock' || rps.toLowerCase() === 'paper' || rps.toLowerCase() === 'scissors') {
+                        return true;
+                    }
+                    return 'Please enter either `rock`, `paper`, or `scissors`.';
+                }
+            }]
         });
     }
 
-    run(message) {
+    run(message, args) {
         if (message.channel.type !== 'dm') {
             if (!message.channel.permissionsFor(this.client.user).hasPermission(['SEND_MESSAGES', 'READ_MESSAGES'])) return;
         }
         console.log(`[Command] ${message.content}`);
-        let [rps] = message.content.toLowerCase().split(" ").slice(1);
+        let rps = args.choice.toLowerCase();
         let response = ['Paper', 'Rock', 'Scissors'];
         response = response[Math.floor(Math.random() * response.length)];
-        if (!rps) {
-            return message.channel.send(":x: Error! Your message contains nothing!");
-        }
-        else if (rps.includes("rock")) {
+        if (rps === "rock") {
             if (response === "Rock") {
                 return message.channel.send("Rock! Aw, it's a tie!");
             }
@@ -36,7 +44,7 @@ module.exports = class RockPaperScissors extends commando.Command {
                 return message.channel.send("Scissors! Aw... I lose...");
             }
         }
-        else if (rps.includes("paper")) {
+        else if (rps === "paper") {
             if (response === "Rock") {
                 return message.channel.send("Rock! Aw... I lose...");
             }
@@ -47,7 +55,7 @@ module.exports = class RockPaperScissors extends commando.Command {
                 return message.channel.send("Scissors! Yes! I win!");
             }
         }
-        else if (rps.includes("scissors")) {
+        else if (rps === "scissors") {
             if (response === "Rock") {
                 return message.channel.send("Rock! Yes! I win!");
             }
@@ -57,9 +65,6 @@ module.exports = class RockPaperScissors extends commando.Command {
             if (response === "Scissors") {
                 return message.channel.send("Scissors! Aw, it's a tie!");
             }
-        }
-        else {
-            return message.channel.send(":x: Error! Your choice is not Rock, Paper, or Scissors!");
         }
     }
 };

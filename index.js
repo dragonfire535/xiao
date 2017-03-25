@@ -1,3 +1,4 @@
+const Discord = require('discord.js');
 const commando = require('discord.js-commando');
 const request = require('superagent');
 const config = require('./config.json');
@@ -27,6 +28,7 @@ client.registry
         ['numedit', 'Number Manipulation'],
         ['imageedit', 'Image Manipulation'],
         ['search', 'Search'],
+        ['games', 'Games'],
         ['random', 'Random/Other'],
         ['roleplay', 'Roleplay']
     ])
@@ -36,7 +38,7 @@ client.registry
     })
     .registerCommandsIn(path.join(__dirname, 'commands'));
 
-client.on('message', message => {
+client.on('message', (message) => {
     if (message.author.bot) return;
     if (message.channel.type === 'dm') return;
     if (message.content.startsWith(`<@${client.user.id}>`)) {
@@ -54,20 +56,47 @@ client.on('message', message => {
     }
 });
 
-client.on('guildMemberAdd', member => {
+client.on('messageReactionAdd', (reaction, user) => {
+    if (reaction.message.channel.type === 'dm') return;
+    if (reaction.emoji.name !== '⭐') return;
+    if (reaction.count > 1) return;
+    let starboard = reaction.message.guild.channels.find('name', 'starboard');
+    if (!starboard) return;
+    if (reaction.message.author.id === user.id) {
+        reaction.remove(user.id);
+        return reaction.message.channel.send(`:x: Error! ${user.username}, you can't star your own messages!`);
+    }
+    if (reaction.message.attachments.size > 0 && reaction.message.attachments.first().height) {
+        const embed = new Discord.RichEmbed()
+            .setAuthor(reaction.message.author.username, reaction.message.author.avatarURL)
+            .setColor(0xFFA500)
+            .setTimestamp()
+            .setImage(reaction.message.attachments.first().url)
+            .setDescription(reaction.message.content);
+        return starboard.sendEmbed(embed);
+    }
+    const embed = new Discord.RichEmbed()
+        .setAuthor(reaction.message.author.username, reaction.message.author.avatarURL)
+        .setColor(0xFFA500)
+        .setTimestamp()
+        .setDescription(reaction.message.content);
+    return starboard.sendEmbed(embed);
+});
+
+client.on('guildMemberAdd', (member) => {
     if (member.guild.id !== config.server) return;
     member.addRole(member.guild.roles.find('name', 'Members'));
     let addedMemberName = member.user.username;
-    member.guild.channels.get(config.announcementChannel).send(`Welcome ${addedMemberName}!`);
+    return member.guild.channels.get(config.announcementChannel).send(`Welcome ${addedMemberName}!`);
 });
 
-client.on('guildMemberRemove', member => {
+client.on('guildMemberRemove', (member) => {
     if (member.guild.id !== config.server) return;
     let removedMemberName = member.user.username;
-    member.guild.channels.get(config.announcementChannel).send(`Bye ${removedMemberName}...`);
+    return member.guild.channels.get(config.announcementChannel).send(`Bye ${removedMemberName}...`);
 });
 
-client.on('guildCreate', guild => {
+client.on('guildCreate', (guild) => {
     console.log(`[Guild] I have joined the guild: ${guild.name}, Owned by: ${guild.owner.user.username} (${guild.id})!`);
     client.guilds.get(config.server).channels.get(config.announcementChannel).send(`I have joined the server: ${guild.name}, Owned by: ${guild.owner.user.username} (${guild.id})!`);
     client.shard.fetchClientValues('guilds.size').then(results => {
@@ -99,7 +128,7 @@ client.on('guildCreate', guild => {
     });
 });
 
-client.on('guildDelete', guild => {
+client.on('guildDelete', (guild) => {
     console.log(`[Guild] I have left the guild: ${guild.name}, Owned by: ${guild.owner.user.username} (${guild.id})...`);
     client.guilds.get(config.server).channels.get(config.announcementChannel).send(`I have left the server: ${guild.name}, Owned by: ${guild.owner.user.username} (${guild.id})...`);
     client.shard.fetchClientValues('guilds.size').then(results => {

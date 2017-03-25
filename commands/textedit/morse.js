@@ -11,28 +11,37 @@ module.exports = class MorseCommand extends commando.Command {
             group: 'textedit',
             memberName: 'morse',
             description: 'Translates text to and from morse code. (;morse encode This is Morse Code.)',
-            examples: [';morse encode This is Morse Code.', ';morse decode .... . .-.. .-.. --- --..-- ....... .-- --- .-. .-.. -.. .-.-.-']
+            examples: [';morse encode This is Morse Code.', ';morse decode .... . .-.. .-.. --- --..-- ....... .-- --- .-. .-.. -.. .-.-.-'],
+            args: [{
+                key: 'method',
+                prompt: 'Would you like to encode or decode the text?',
+                type: 'string',
+                validate: method => {
+                    if (method.toLowerCase() === 'encode' || method.toLowerCase() === 'decode') {
+                        return true;
+                    }
+                    return 'Please enter either `encode` or `decode`.'
+                }
+            }, {
+                key: 'text',
+                prompt: 'What text would you like to convert to/from morse?',
+                type: 'string'
+            }]
         });
     }
 
-    run(message) {
+    run(message, args) {
         if (message.channel.type !== 'dm') {
             if (!message.channel.permissionsFor(this.client.user).hasPermission(['SEND_MESSAGES', 'READ_MESSAGES'])) return;
         }
         console.log(`[Command] ${message.content}`);
-        let [methodToUse] = message.content.toLowerCase().split(" ").slice(1);
-        let toMorse = message.content.split(" ").slice(2).join(" ");
-        if (!toMorse) {
-            return message.channel.send(":x: Error! Nothing to translate! Perhaps you forgot to set the method? Use either encode or decode before your text.");
-        }
-        else if (methodToUse === 'encode') {
+        let methodToUse = args.method.toLowerCase();
+        let toMorse = args.text;
+        if (methodToUse === 'encode') {
             return message.channel.send(morse.encode(toMorse)).catch(error => message.channel.send(':x: Error! Something went wrong! Perhaps you entered incorrect text?'));
         }
         else if (methodToUse === 'decode') {
             return message.channel.send(morse.decode(toMorse)).catch(error => message.channel.send(':x: Error! Something went wrong! Perhaps you entered incorrect text?'));
-        }
-        else {
-            return message.channel.send(":x: Error! Method not set/not correct! Use either encode or decode.");
         }
     }
 };
