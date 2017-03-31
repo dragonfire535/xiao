@@ -9,10 +9,6 @@ module.exports = class TypingGameCommand extends commando.Command {
             memberName: 'typinggame',
             description: 'See how fast you can type a sentence in a given time limit. (;typinggame easy)',
             examples: [';typinggame easy', ';typinggame medium', ';typinggame hard', ';typinggame extreme'],
-            throttling: {
-				usages: 1,
-				duration: 25
-			},
             args: [{
                 key: 'difficulty',
                 prompt: 'What difficulty should the typing game be? Easy, Medium, Hard, or Extreme?',
@@ -33,7 +29,6 @@ module.exports = class TypingGameCommand extends commando.Command {
         }
         console.log(`[Command] ${message.content}`);
         let level = args.difficulty.toLowerCase();
-        if (level !== 'easy' || level !== 'medium' || level !== 'hard' || level !== 'extreme') return message.say(':x: Error! Please set the difficulty to either easy, medium, hard, or extreme!');
         let randomSentence = ['The quick brown fox jumps over the lazy dog.', 'Buffalo buffalo Buffalo buffalo buffalo buffalo Buffalo buffalo.', 'How razorback-jumping frogs can level six piqued gymnasts!', 'Amazingly few discotheques provide jukeboxes.'];
         randomSentence = randomSentence[Math.floor(Math.random() * randomSentence.length)];
         let time;
@@ -61,11 +56,16 @@ module.exports = class TypingGameCommand extends commando.Command {
             .setDescription(randomSentence);
         let embedMsg = await message.embed(embed);
         try {
-            let collected = await message.channel.awaitMessages(response => response.content === randomSentence && response.author.id === message.author.id, {
+            let collected = await message.channel.awaitMessages(response => response.author.id === message.author.id, {
                 max: 1,
                 time: time,
                 errors: ['time']
             });
+            if (collected.first().content !== randomSentence) {
+                console.log(collected.first());
+                let loseMsg = await message.say('Nope, your sentence does not match the original. Try again next time!');
+                return [embedMsg, loseMsg];
+            }
             let victoryMsg = await message.say(`Good Job! You won!`);
             return [embedMsg, victoryMsg];
         }
