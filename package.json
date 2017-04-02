@@ -16,14 +16,13 @@
   "author": "dragonfire535",
   "license": "ISC",
   "dependencies": {
-    "Sherlock": "github:neilgupta/Sherlock",
+    "Sherlock": "neilgupta/Sherlock",
     "cheerio": "^0.22.0",
     "cowsay": "^1.1.9",
-    "discord.js": "github:hydrabolt/discord.js#1cb227d6d845318bee47916e9e429ae094c4936a",
-    "discord.js-commando": "github:gawdl3y/discord.js-commando",
+    "discord.js": "hydrabolt/discord.js#1cb227d6d845318bee47916e9e429ae094c4936a",
+    "discord.js-commando": "gawdl3y/discord.js-commando",
     "google-translate-api": "^2.2.2",
     "hepburn": "^1.0.0",
-    "imdb-api": "^2.2.1",
     "jimp": "^0.2.27",
     "mathjs": "^3.10.0",
     "moment": "^2.17.1",
@@ -34,8 +33,6 @@
     "roman-numeral-converter-mmxvi": "^1.0.5",
     "string-to-binary": "^0.1.2",
     "superagent": "^3.5.1",
-    "urban": "^0.3.1",
-    "yahoo-weather": "^2.2.2",
     "zalgolize": "^1.2.4"
   }
 }
