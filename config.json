@@ -9,7 +9,6 @@
   "mashapekey": "MashapeAPIKey",
   "owner": "OwnerID",
   "server": "HomeServerID",
-  "personalServer": "PersonalServerID",
   "announcementChannel": "HomeServerChannelID",
   "botID": "BotID",
   "webhook": "WebhookLink",

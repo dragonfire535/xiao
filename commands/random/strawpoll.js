@@ -45,18 +45,19 @@ module.exports = class StrawpollCommand extends commando.Command {
             if (!message.channel.permissionsFor(this.client.user).hasPermission(['SEND_MESSAGES', 'READ_MESSAGES'])) return;
         }
         console.log(`[Command] ${message.content}`);
-        let title = args.title;
-        let choices = args.choices.split(" | ");
+        const title = args.title;
+        const choices = args.choices.split(" | ");
         if (choices.length < 2) return message.say(':x: Error! You provided less than two choices!');
         if (choices.length > 31) return message.say(':x: Error! You provided more than thirty choices!');
         try {
-            let response = await request
+            const response = await request
                 .post('https://strawpoll.me/api/v2/polls')
                 .send({
                     title: title,
                     options: choices
                 });
-            return message.say(`${response.body.title}\nhttp://strawpoll.me/${response.body.id}`);
+            const data = response.body;
+            return message.say(`${data.title}\nhttp://strawpoll.me/${data.id}`);
         }
         catch (err) {
             return message.say(":x: Error! Something went wrong!");

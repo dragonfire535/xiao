@@ -28,21 +28,22 @@ module.exports = class UrbanDictionary extends commando.Command {
             if (!message.channel.permissionsFor(this.client.user).hasPermission(['SEND_MESSAGES', 'READ_MESSAGES', 'EMBED_LINKS'])) return;
         }
         console.log(`[Command] ${message.content}`);
-        let wordToDefine = args.word;
+        const wordToDefine = args.word;
         try {
-            let response = await request
+            const response = await request
                 .get('http://api.urbandictionary.com/v0/define')
                 .query({
                     term: wordToDefine
                 });
+            const data = response.body.list[0];
             const embed = new Discord.RichEmbed()
                 .setColor(0x32a8f0)
                 .setAuthor('Urban Dictionary', 'http://a1.mzstatic.com/eu/r30/Purple71/v4/66/54/68/6654683f-cacd-4a55-1784-f14257f77874/icon175x175.png')
-                .setURL(response.body.list[0].permalink)
-                .setTitle(response.body.list[0].word)
-                .setDescription(`${response.body.list[0].definition.substr(0, 1900)} [Read the Rest Here!](${response.body.list[0].permalink})`)
+                .setURL(data.permalink)
+                .setTitle(data.word)
+                .setDescription(data.definition.substr(0, 1900))
                 .addField('**Example:**',
-                    response.body.list[0].example.substr(0, 1900) || 'None');
+                    data.example.substr(0, 1900) || 'None');
             return message.embed(embed);
         }
         catch (err) {

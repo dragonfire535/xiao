@@ -22,21 +22,21 @@ module.exports = class TodayCommand extends commando.Command {
         }
         console.log("[Command] " + message.content);
         try {
-            let response = await request
+            const response = await request
                 .get('http://history.muffinlabs.com/date')
                 .set({
-                    'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 })
                 .buffer(true);
-            let responseData = JSON.parse(response.text);
-            let randomNumber = Math.floor(Math.random() * responseData.data.Events.length);
+            const parsedResponse = JSON.parse(response.text);
+            const events = parsedResponse.data.Events;
+            const randomNumber = Math.floor(Math.random() * events.length);
             const embed = new Discord.RichEmbed()
                 .setColor(0x9797FF)
-                .setURL(responseData.url)
-                .setTitle(`On this day (${responseData.date})...`)
+                .setURL(parsedResponse.url)
+                .setTitle(`On this day (${parsedResponse.date})...`)
                 .setTimestamp()
-                .setDescription(`${responseData.data.Events[randomNumber].text} (${responseData.data.Events[randomNumber].year})`);
+                .setDescription(`${events[randomNumber].text} (${events[randomNumber].year})`);
             return message.embed(embed);
         }
         catch (err) {

@@ -35,10 +35,10 @@ client.registry
 client.on('guildCreate', async(guild) => {
     console.log(`[Guild] I have joined the guild: ${guild.name}, Owned by: ${guild.owner.user.username} (${guild.id})!`);
     client.guilds.get(config.server).channels.get(config.announcementChannel).send(`I have joined the server: ${guild.name}, Owned by: ${guild.owner.user.username} (${guild.id})!`);
-    let results = await client.shard.fetchClientValues('guilds.size');
+    const results = await client.shard.fetchClientValues('guilds.size');
     console.log(`[Guild Count] ${results.reduce((prev, val) => prev + val, 0)}`);
     try {
-        let response = await request
+        const response = await request
             .post('https://www.carbonitex.net/discord/data/botdata.php')
             .send({
                 key: config.carbonkey,
@@ -50,7 +50,7 @@ client.on('guildCreate', async(guild) => {
         console.log(`[Carbon] Failed to post to Carbon. ${err}`);
     }
     try {
-        let response = await request
+        const response = await request
             .post(`https://bots.discord.pw/api/bots/${config.botID}/stats`)
             .set({
                 'Authorization': config.botskey
@@ -68,10 +68,10 @@ client.on('guildCreate', async(guild) => {
 client.on('guildDelete', async(guild) => {
     console.log(`[Guild] I have left the guild: ${guild.name}, Owned by: ${guild.owner.user.username} (${guild.id})...`);
     client.guilds.get(config.server).channels.get(config.announcementChannel).send(`I have left the server: ${guild.name}, Owned by: ${guild.owner.user.username} (${guild.id})...`);
-    let results = await client.shard.fetchClientValues('guilds.size');
+    const results = await client.shard.fetchClientValues('guilds.size');
     console.log(`[Guild Count] ${results.reduce((prev, val) => prev + val, 0)}`);
     try {
-        let response = await request
+        const response = await request
             .post('https://www.carbonitex.net/discord/data/botdata.php')
             .send({
                 key: config.carbonkey,
@@ -83,7 +83,7 @@ client.on('guildDelete', async(guild) => {
         console.log(`[Carbon] Failed to post to Carbon. ${err}`);
     }
     try {
-        let response = await request
+        const response = await request
             .post(`https://bots.discord.pw/api/bots/${config.botID}/stats`)
             .set({
                 'Authorization': config.botskey

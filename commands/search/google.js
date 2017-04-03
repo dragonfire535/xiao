@@ -27,14 +27,16 @@ module.exports = class GoogleCommand extends commando.Command {
             if (!message.channel.permissionsFor(this.client.user).hasPermission(['SEND_MESSAGES', 'READ_MESSAGES'])) return;
         }
         console.log(`[Command] ${message.content}`);
-        let thingToSearch = encodeURI(args.query);
-        let searchMsg = await message.say('Searching...');
+        const thingToSearch = args.query;
+        const searchMsg = await message.say('Searching...');
         try {
-            let response = await request
-                .get(`https://www.google.com/search?q=${thingToSearch}`);
+            const response = await request
+                .get(`https://www.google.com/search`)
+                .query({
+                    q: thingToSearch
+                });
             const $ = cheerio.load(response.text);
             let href = $('.r').first().find('a').first().attr('href');
-            if (!href) return searchMsg.edit(':x: Error! No Results Found!');
             href = querystring.parse(href.replace('/url?', ''));
             return searchMsg.edit(href.q);
         }

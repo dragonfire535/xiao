@@ -28,34 +28,35 @@ module.exports = class IMDBCommand extends commando.Command {
             if (!message.channel.permissionsFor(this.client.user).hasPermission(['SEND_MESSAGES', 'READ_MESSAGES', 'EMBED_LINKS'])) return;
         }
         console.log(`[Command] ${message.content}`);
-        let queryMovie = args.movie;
+        const queryMovie = args.movie;
         try {
-            let response = await request
+            const response = await request
                 .get(`http://www.omdbapi.com/`)
                 .query({
                     t: queryMovie,
                     plot: 'full'
                 });
+            const data = response.body;
             const embed = new Discord.RichEmbed()
                 .setColor(0xDBA628)
                 .setAuthor('IMDB', 'http://static.wixstatic.com/media/c65cbf_31901b544fe24f1890134553bf40c8be.png')
-                .setURL(`http://www.imdb.com/title/${response.body.imdbID}`)
-                .setTitle(`${response.body.Title} (${response.body.imdbRating} Score)`)
-                .setDescription(`${response.body.Plot.substr(0, 1500)} [Read the Rest Here!](http://www.imdb.com/title/${response.body.imdbID})`)
+                .setURL(`http://www.imdb.com/title/${data.imdbID}`)
+                .setTitle(`${data.Title} (${data.imdbRating} Score)`)
+                .setDescription(data.Plot.substr(0, 1900))
                 .addField('**Genres:**',
-                    response.body.Genre)
+                    data.Genre)
                 .addField('**Year:**',
-                    response.body.Year, true)
+                    data.Year, true)
                 .addField('**Rated:**',
-                    response.body.Rated, true)
+                    data.Rated, true)
                 .addField('**Runtime:**',
-                    response.body.Runtime, true)
+                    data.Runtime, true)
                 .addField('**Directors:**',
-                    response.body.Director)
+                    data.Director)
                 .addField('**Writers:**',
-                    response.body.Writer)
+                    data.Writer)
                 .addField('**Actors:**',
-                    response.body.Actors);
+                    data.Actors);
             return message.embed(embed);
         }
         catch (err) {

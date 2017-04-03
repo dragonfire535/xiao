@@ -30,7 +30,7 @@ module.exports = class UserInfoCommand extends commando.Command {
             if (!message.channel.permissionsFor(this.client.user).hasPermission(['SEND_MESSAGES', 'READ_MESSAGES', 'EMBED_LINKS'])) return;
         }
         console.log(`[Command] ${message.content}`);
-        let user = args.user;
+        const user = args.user;
         let stat;
         let color;
         switch (user.presence.status) {
@@ -53,7 +53,7 @@ module.exports = class UserInfoCommand extends commando.Command {
         }
         let userGame;
         if (!user.presence.game) {
-            userGame = "None";
+            userGame = 'None';
         }
         else {
             userGame = user.presence.game.name;

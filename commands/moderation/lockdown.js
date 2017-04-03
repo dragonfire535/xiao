@@ -29,17 +29,14 @@ module.exports = class LockdownCommand extends commando.Command {
     async run(message, args) {
         if (message.channel.type !== 'dm') {
             if (!message.channel.permissionsFor(this.client.user).hasPermission(['READ_MESSAGES', 'SEND_MESSAGES'])) return;
-            if (!message.channel.permissionsFor(this.client.user).hasPermission('MANAGE_CHANNELS')) return message.say(":x: Error! I don't have permission to Manage Channels!");
+            if (!message.channel.permissionsFor(this.client.user).hasPermission('ADMINISTRATOR')) return message.say(":x: Error! I don't have the Administrator permission! This is not given by default, as that's quite bad practice. Please give it to me to use the lockdown command!");
         }
         console.log(`[Command] ${message.content}`);
-        let type = args.type;
+        const type = args.type;
         if (type.toLowerCase() === 'start') {
             try {
                 await message.channel.overwritePermissions(message.guild.defaultRole, {
                     SEND_MESSAGES: false
-                });
-                await message.channel.overwritePermissions(message.guild.member(this.client.user), {
-                    SEND_MESSAGES: true
                 });
                 return message.say('**Lockdown Started, users without Administrator can no longer post messages. Please use ;lockdown stop to end the lockdown.**');
             }
