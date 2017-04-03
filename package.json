@@ -5,7 +5,7 @@
   "main": "shardingmanager.js",
   "repository": {
     "type": "git",
-    "url": "git+https://dragonfire535@bitbucket.org/dragonfire535/xiaobot.git"
+    "url": "https://github.com/dragonfire535/xiaobot.git"
   },
   "scripts": {
     "start": "node shardingmanager.js"
