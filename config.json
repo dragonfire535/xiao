@@ -12,5 +12,5 @@
   "announcementChannel": "HomeServerChannelID",
   "botID": "BotID",
   "webhook": "WebhookLink",
-  "commandCount": "115"
+  "commandCount": "116"
 }
