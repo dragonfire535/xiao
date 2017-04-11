@@ -1,4 +1,4 @@
-const commando = require('discord.js-commando');
+const { Command } = require('discord.js-commando');
 
 String.prototype.shuffle = function() {
     let a = this.split(''),
@@ -12,9 +12,9 @@ String.prototype.shuffle = function() {
     return a.join('');
 };
 
-module.exports = class ShuffleCommand extends commando.Command {
-    constructor(Client) {
-        super(Client, {
+module.exports = class ShuffleCommand extends Command {
+    constructor(client) {
+        super(client, {
             name: 'shuffle',
             group: 'textedit',
             memberName: 'shuffle',

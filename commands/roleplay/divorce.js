@@ -1,8 +1,8 @@
-const commando = require('discord.js-commando');
+const { Command } = require('discord.js-commando');
 
-module.exports = class DivorceCommand extends commando.Command {
-    constructor(Client) {
-        super(Client, {
+module.exports = class DivorceCommand extends Command {
+    constructor(client) {
+        super(client, {
             name: 'divorce',
             group: 'roleplay',
             memberName: 'divorce',

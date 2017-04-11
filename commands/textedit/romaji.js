@@ -1,9 +1,9 @@
-const commando = require('discord.js-commando');
+const { Command } = require('discord.js-commando');
 const hepburn = require('hepburn');
 
-module.exports = class RomajiCommand extends commando.Command {
-    constructor(Client) {
-        super(Client, {
+module.exports = class RomajiCommand extends Command {
+    constructor(client) {
+        super(client, {
             name: 'romaji',
             aliases: [
                 'romajify'

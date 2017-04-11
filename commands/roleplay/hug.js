@@ -1,8 +1,8 @@
-const commando = require('discord.js-commando');
+const { Command } = require('discord.js-commando');
 
-module.exports = class HugCommand extends commando.Command {
-    constructor(Client) {
-        super(Client, {
+module.exports = class HugCommand extends Command {
+    constructor(client) {
+        super(client, {
             name: 'hug',
             group: 'roleplay',
             memberName: 'hug',

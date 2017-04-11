@@ -1,9 +1,9 @@
-const commando = require('discord.js-commando');
+const { Command } = require('discord.js-commando');
 const zalgo = require('zalgolize');
 
-module.exports = class ZalgoCommand extends commando.Command {
-    constructor(Client) {
-        super(Client, {
+module.exports = class ZalgoCommand extends Command {
+    constructor(client) {
+        super(client, {
             name: 'zalgo',
             group: 'textedit',
             memberName: 'zalgo',

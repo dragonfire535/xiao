@@ -1,10 +1,10 @@
-const commando = require('discord.js-commando');
-const Discord = require('discord.js');
+const { Command } = require('discord.js-commando');
+const { RichEmbed } = require('discord.js');
 const request = require('superagent');
 
-module.exports = class WikipediaCommand extends commando.Command {
-    constructor(Client) {
-        super(Client, {
+module.exports = class WikipediaCommand extends Command {
+    constructor(client) {
+        super(client, {
             name: 'wikipedia',
             group: 'search',
             memberName: 'wikipedia',
@@ -40,7 +40,7 @@ module.exports = class WikipediaCommand extends commando.Command {
                 });
             const data = response.body.query.pages[0];
             const description = data.extract.substr(0, 1900).split('\n').join('\n\n');
-            const embed = new Discord.RichEmbed()
+            const embed = new RichEmbed()
                 .setColor(0xE7E7E7)
                 .setTitle(data.title)
                 .setURL(`https://en.wikipedia.org/wiki/${title}`)

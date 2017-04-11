@@ -1,10 +1,10 @@
-const commando = require('discord.js-commando');
-const Discord = require('discord.js');
+const { Command } = require('discord.js-commando');
+const { RichEmbed } = require('discord.js');
 const request = require('superagent');
 
-module.exports = class ForecastCommand extends commando.Command {
-    constructor(Client) {
-        super(Client, {
+module.exports = class ForecastCommand extends Command {
+    constructor(client) {
+        super(client, {
             name: 'forecast',
             aliases: [
                 'weatherforecast'
@@ -36,7 +36,7 @@ module.exports = class ForecastCommand extends commando.Command {
                 });
             const info = response.body.query.results.channel;
             const data = info.item.forecast;
-            const embed = new Discord.RichEmbed()
+            const embed = new RichEmbed()
                 .setColor(0x0000FF)
                 .setAuthor(info.title, 'http://media.idownloadblog.com/wp-content/uploads/2013/12/yahoo-weather-213x220.png')
                 .setURL(info.link)

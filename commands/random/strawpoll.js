@@ -1,9 +1,9 @@
-const commando = require('discord.js-commando');
+const { Command } = require('discord.js-commando');
 const request = require('superagent');
 
-module.exports = class StrawpollCommand extends commando.Command {
-    constructor(Client) {
-        super(Client, {
+module.exports = class StrawpollCommand extends Command {
+    constructor(client) {
+        super(client, {
             name: 'strawpoll',
             aliases: [
                 'poll',

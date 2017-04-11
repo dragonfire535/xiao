@@ -1,12 +1,12 @@
-const commando = require('discord.js-commando');
+const { Command } = require('discord.js-commando');
 
-module.exports = class InviteCommand extends commando.Command {
-    constructor(Client) {
-        super(Client, {
+module.exports = class InviteCommand extends Command {
+    constructor(client) {
+        super(client, {
             name: 'invite',
             group: 'botinfo',
             memberName: 'invite',
-            description: 'Sends you an invite for the bot, or an invite to my server, Heroes of Dreamland. (;invite)',
+            description: 'Sends you an invite for the bot and an invite to my server. (;invite)',
             examples: [';invite']
         });
     }

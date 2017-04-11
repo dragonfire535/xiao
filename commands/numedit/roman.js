@@ -1,9 +1,9 @@
-const commando = require('discord.js-commando');
+const { Command } = require('discord.js-commando');
 const romanNumeralConverter = require('roman-numeral-converter-mmxvi');
 
-module.exports = class RomanCommand extends commando.Command {
-    constructor(Client) {
-        super(Client, {
+module.exports = class RomanCommand extends Command {
+    constructor(client) {
+        super(client, {
             name: 'roman',
             group: 'numedit',
             memberName: 'roman',

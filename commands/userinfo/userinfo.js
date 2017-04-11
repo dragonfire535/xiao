@@ -1,11 +1,11 @@
-const commando = require('discord.js-commando');
-const Discord = require('discord.js');
+const { Command } = require('discord.js-commando');
+const { RichEmbed } = require('discord.js');
 const moment = require('moment');
 require('moment-duration-format');
 
-module.exports = class UserInfoCommand extends commando.Command {
-    constructor(Client) {
-        super(Client, {
+module.exports = class UserInfoCommand extends Command {
+    constructor(client) {
+        super(client, {
             name: 'user',
             aliases: [
                 'userinfo',
@@ -52,7 +52,7 @@ module.exports = class UserInfoCommand extends commando.Command {
                 break;
         }
         const userGame = user.presence.game ? user.presence.game.name : 'None';
-        const embed = new Discord.RichEmbed()
+        const embed = new RichEmbed()
             .setColor(color)
             .setThumbnail(user.displayAvatarURL)
             .addField('**Name:**',

@@ -1,10 +1,10 @@
-const commando = require('discord.js-commando');
-const Discord = require('discord.js');
+const { Command } = require('discord.js-commando');
+const { RichEmbed } = require('discord.js');
 const pokedex = require('./pkdex.json');
 
-module.exports = class PokedexCommand extends commando.Command {
-    constructor(Client) {
-        super(Client, {
+module.exports = class PokedexCommand extends Command {
+    constructor(client) {
+        super(client, {
             name: 'pokedex',
             aliases: [
                 'pokemon'
@@ -33,7 +33,7 @@ module.exports = class PokedexCommand extends commando.Command {
             if (!message.channel.permissionsFor(this.client.user).hasPermission('EMBED_LINKS')) return message.say(':x: Error! I don\'t have the Embed Links Permission!');
         }
         const pokemon = args.pokemon.toLowerCase();
-        const embed = new Discord.RichEmbed()
+        const embed = new RichEmbed()
             .setTitle('Information')
             .setAuthor(`#${pokedex.index[pokemon]} ${pokedex.name[pokemon]}`, `http://www.serebii.net/pokedex-sm/icon/${pokedex.index[pokemon]}.png`)
             .setColor(0xFF0000)
