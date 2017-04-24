@@ -1,5 +1,5 @@
 const { CommandoClient } = require('discord.js-commando');
-const { discordBots, carbon } = require('./poststats.js');
+const { discordBots, carbon, webhook } = require('./poststats.js');
 const path = require('path');
 const client = new CommandoClient({
     commandPrefix: 'x;',
@@ -29,10 +29,11 @@ client.registry
     .registerCommandsIn(path.join(__dirname, 'commands'));
 
 client.on('guildCreate', async(guild) => {
-    console.log(`[Guild] I have joined ${guild.name}!`);
+    console.log(`[Guild] I have joined ${guild.name}! (Owned by ${guild.owner.user.tag}) (${guild.id})`);
     const guilds = await client.shard.fetchClientValues('guilds.size');
     const count = guilds.reduce((prev, val) => prev + val, 0);
     console.log(`[Count] ${count}`);
+    webhook(`Joined ${guild.name}!\nOwned by: ${guild.owner.user.tag}\nID: ${guild.id}`, `Shard ${client.shard.id}`, 0x33CC33);
     try {
         const carbonStats = await carbon(count);
         console.log(`[Carbon] Successfully posted to Carbon. ${carbonStats}`);
@@ -48,10 +49,11 @@ client.on('guildCreate', async(guild) => {
 });
 
 client.on('guildDelete', async(guild) => {
-    console.log(`[Guild] I have left ${guild.name}...`);
+    console.log(`[Guild] I have left ${guild.name}... (Owned by ${guild.owner.user.tag}) (${guild.id})`);
     const guilds = await client.shard.fetchClientValues('guilds.size');
     const count = guilds.reduce((prev, val) => prev + val, 0);
     console.log(`[Count] ${count}`);
+    webhook(`Left ${guild.name}...\nOwned by: ${guild.owner.user.tag}\nID: ${guild.id}`, `Shard ${client.shard.id}`, 0xFF3300);
     try {
         const carbonStats = await carbon(count);
         console.log(`[Carbon] Successfully posted to Carbon. ${carbonStats}`);
@@ -67,8 +69,8 @@ client.on('guildDelete', async(guild) => {
 });
 
 client.on('disconnect', (event) => {
-    console.log(`[Disconnect] The Shard ${client.shard.id} disconnected with Code ${event.code}.`);
-    process.exit(0);
+    console.log(`[Disconnect] Shard ${client.shard.id} disconnected with Code ${event.code}.`);
+    webhook(`Disconnected with Code ${event.code}...`, `Shard ${client.shard.id}`, 0xFF3300);
 });
 
 client.on('ready', () => {
