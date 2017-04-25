@@ -1,7 +1,7 @@
 <div align="center">
   <br />
   <p>
-    <a href="http://dragonfire535.weebly.com/xiaobot.html"><img src="http://dragonfire535.weebly.com/uploads/5/2/3/5/52359877/xiaobot_1_orig.png" width="546" alt="XiaoBot" /></a>
+    <a href="http://dragonfire535.weebly.com/xiaobot.html"><img src="http://dragonfire535.weebly.com/uploads/5/2/3/5/52359877/xiaobot_1_orig.png" alt="XiaoBot" /></a>
   </p>
   <br />
   <p>
