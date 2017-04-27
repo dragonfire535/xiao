@@ -7,6 +7,12 @@ const client = new CommandoClient({
     disableEveryone: true,
     invite: 'https://discord.gg/fqQF8mc'
 });
+const SequelizeProvider = require('./providers/Sequelize');
+const Database = require('./structures/PostgreSQL');
+const database = new Database();
+database.start();
+
+client.setProvider(new SequelizeProvider(Database.db));
 
 client.registry
     .registerDefaultTypes()
@@ -29,14 +35,14 @@ client.registry
     .registerCommandsIn(path.join(__dirname, 'commands'));
     
 client.on('guildMemberAdd', (member) => {
-    const channel = member.guild.channels.find('name', 'member_logs');
+    const channel = member.guild.channels.find('name', member.guild.settings.get('memberLog', 'member_logs'));
     if (!channel) return;
     if (!channel.permissionsFor(client.user).has('SEND_MESSAGES')) return;
     channel.send(`Welcome ${member.user.username}!`);
 });
 
 client.on('guildMemberRemove', (member) => {
-    const channel = member.guild.channels.find('name', 'member_logs');
+    const channel = member.guild.channels.find('name', member.guild.settings.get('memberLog', 'member_logs'));
     if (!channel) return;
     if (!channel.permissionsFor(client.user).has('SEND_MESSAGES')) return;
     channel.send(`Bye ${member.user.username}...`);
