@@ -31,12 +31,14 @@ client.registry
 client.on('guildMemberAdd', (member) => {
     const channel = member.guild.channels.find('name', 'member_logs');
     if (!channel) return;
+    if (!channel.permissionsFor(client.user).has('SEND_MESSAGES')) return;
     channel.send(`Welcome ${member.user.username}!`);
 });
 
 client.on('guildMemberRemove', (member) => {
     const channel = member.guild.channels.find('name', 'member_logs');
     if (!channel) return;
+    if (!channel.permissionsFor(client.user).has('SEND_MESSAGES')) return;
     channel.send(`Bye ${member.user.username}...`);
 });
 
@@ -82,6 +84,11 @@ client.on('disconnect', (event) => {
     console.log(`[Disconnect] Shard ${client.shard.id} disconnected with Code ${event.code}.`);
     process.exit(0);
 });
+
+client.setTimeout(() => {
+    console.log(`[Restart] Shard ${client.shard.id} Restarted.`);
+    process.exit(0);
+}, 14400000);
 
 client.on('ready', () => {
     console.log(`[Ready] Shard ${client.shard.id} Logged in!`);
