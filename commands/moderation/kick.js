@@ -28,7 +28,7 @@ module.exports = class KickCommand extends Command {
     }
     
     hasPermission(msg) {
-        return msg.member.permissions.has('KICK_MEMBERS');
+        return msg.member.permissions.has('KICK_MEMBERS') || msg.member.roles.exists('name', msg.guild.settings.get('staffRole', 'Server Staff'));
     }
 
     async run(message, args) {
@@ -48,7 +48,9 @@ module.exports = class KickCommand extends Command {
             } catch (err) {
                 await message.say('Failed to send DM.');
             }
-            await member.kick();
+            await member.kick({
+                reason
+            });
             await message.say(':ok_hand:');
             const embed = new RichEmbed()
                 .setAuthor(message.author.tag, message.author.displayAvatarURL)
