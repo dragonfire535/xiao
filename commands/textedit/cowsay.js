@@ -1,4 +1,5 @@
 const { Command } = require('discord.js-commando');
+const { stripIndent } = require('common-tags');
 
 module.exports = class CowsayCommand extends Command {
     constructor(client) {
@@ -24,6 +25,15 @@ module.exports = class CowsayCommand extends Command {
 
     run(msg, args) {
         const { text } = args;
-        return msg.code(null, `< ${text} >\n       \\   ^__^\n        \\  (oO)\\_______\n           (__)\\       )\\/\\\n             U  ||----w |\n                ||     ||`);
+        return msg.code(null, 
+            stripIndent`
+                < ${text} >
+                   \\   ^__^
+                    \\  (oO)\\_______
+                       (__)\\       )\\/\\
+                         U  ||----w |
+                            ||     ||
+            `
+        );
     }
 };
