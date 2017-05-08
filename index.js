@@ -105,11 +105,6 @@ client.on('guildDelete', async (guild) => {
     }
 });
 
-client.setTimeout(() => {
-    console.log(`[Restart] Shard ${client.shard.id} Restarted.`);
-    process.exit(0);
-}, 14400000);
-
 client.on('disconnect', (event) => {
     console.log(`[Disconnect] Shard ${client.shard.id} disconnected with Code ${event.code}.`);
     process.exit(0);
