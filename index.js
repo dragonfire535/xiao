@@ -1,4 +1,5 @@
-const { TOKEN, OWNER, PREFIX, INVITE } = process.env;
+const { TOKEN, OWNER, PREFIX, INVITE, CLEVS_KEY, CLEVS_USER } = process.env;
+
 const { CommandoClient } = require('discord.js-commando');
 const client = new CommandoClient({
     commandPrefix: PREFIX,
@@ -8,11 +9,21 @@ const client = new CommandoClient({
     unknownCommandResponse: false
 });
 const path = require('path');
+
 const { carbon, discordBots } = require('./structures/Stats');
+
 const SequelizeProvider = require('./providers/Sequelize');
 const Database = require('./structures/PostgreSQL');
-
 Database.start();
+
+const Cleverbot = require('./structures/Cleverbot');
+const clevs = new Cleverbot({
+    key: CLEVS_KEY,
+    user: CLEVS_USER,
+    nick: 'XiaoBot'
+});
+
+let mention;
 
 client.setProvider(new SequelizeProvider(Database.db));
 
@@ -35,6 +46,21 @@ client.registry
     .registerDefaultGroups()
     .registerDefaultCommands({ help: false })
     .registerCommandsIn(path.join(__dirname, 'commands'));
+
+client.on('message', async (msg) => {
+    if (msg.isMentioned(client.user)) {
+        msg.channel.startTyping();
+        const message = msg.content.replace(mention, '');
+        try {
+            const { body } = await clevs.ask(message);
+            return msg.reply(body.response)
+                .then(() => msg.channel.stopTyping());
+        } catch (err) {
+            return msg.reply(err)
+                .then(() => msg.channel.stopTyping());
+        }
+    } else return;
+});
 
 client.dispatcher.addInhibitor(msg => {
     if (msg.channel.type === 'dm') return false;
@@ -114,6 +140,7 @@ client.on('disconnect', (event) => {
 client.on('ready', () => {
     console.log(`[Ready] Shard ${client.shard.id} Logged in!`);
     client.user.setGame(`x;help | Shard ${client.shard.id}`);
+    mention = new RegExp(`(<!?@${client.user.id}>)`, 'g');
 });
 
 client.login(TOKEN);
