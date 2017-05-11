@@ -1,6 +1,5 @@
 const { TOKEN, OWNER, PREFIX, INVITE, CLEVS_KEY, CLEVS_USER, CLEVS_NICK } = process.env;
-
-const { CommandoClient } = require('discord.js-commando');
+const { CommandoClient, FriendlyError } = require('discord.js-commando');
 const client = new CommandoClient({
     commandPrefix: PREFIX,
     owner: OWNER,
@@ -9,22 +8,18 @@ const client = new CommandoClient({
     unknownCommandResponse: false
 });
 const path = require('path');
-
 const { carbon, dBots } = require('./structures/Stats');
-
 const SequelizeProvider = require('./providers/Sequelize');
 const Database = require('./structures/PostgreSQL');
-Database.start();
-
 const Cleverbot = require('./structures/Cleverbot');
 const clevs = new Cleverbot({
     key: CLEVS_KEY,
     user: CLEVS_USER,
     nick: CLEVS_NICK
 });
-clevs.create();
 
-let mention;
+Database.start();
+clevs.create();
 
 client.setProvider(new SequelizeProvider(Database.db));
 
@@ -47,6 +42,27 @@ client.registry
     .registerDefaultGroups()
     .registerDefaultCommands({ help: false })
     .registerCommandsIn(path.join(__dirname, 'commands'));
+
+let mention;
+client.on('ready', () => {
+    console.log(`[Ready] Shard ${client.shard.id} Logged in!`);
+    client.user.setGame(`x;help | Shard ${client.shard.id}`);
+    mention = new RegExp(`(<!?@${client.user.id}>)`, 'g');
+});
+
+client.on('disconnect', (event) => {
+    console.log(`[Disconnect] Shard ${client.shard.id} disconnected with Code ${event.code}.`);
+    process.exit(0);
+});
+
+client.on('error', console.error);
+
+client.on('warn', console.warn);
+
+client.on('commandError', (command, err) => {
+    if (err instanceof FriendlyError) return;
+    console.error(command.name, err);
+});
 
 client.on('message', async (msg) => {
     if (msg.author.bot) return;
@@ -114,17 +130,6 @@ client.on('guildDelete', async (guild) => {
     console.log(`[Count] ${count}`);
     carbon(count);
     dBots(count, client.user.id);
-});
-
-client.on('disconnect', (event) => {
-    console.log(`[Disconnect] Shard ${client.shard.id} disconnected with Code ${event.code}.`);
-    process.exit(0);
-});
-
-client.on('ready', () => {
-    console.log(`[Ready] Shard ${client.shard.id} Logged in!`);
-    client.user.setGame(`x;help | Shard ${client.shard.id}`);
-    mention = new RegExp(`(<!?@${client.user.id}>)`, 'g');
 });
 
 client.login(TOKEN);
