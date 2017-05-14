@@ -65,10 +65,13 @@ client.on('commandError', (command, err) => {
 });
 
 client.on('message', async (msg) => {
-    if (msg.author.bot) return;
-    if (msg.channel.type !== 'dm')
-        if (!msg.channel.permissionsFor(client.user).has('SEND_MESSAGES')) return;
     if (msg.isMentioned(client.user)) {
+        if (msg.author.bot) return;
+        if (msg.channel.type !== 'dm') {
+            if (!msg.channel.permissionsFor(client.user).has('SEND_MESSAGES')) return;
+            const role = msg.guild.settings.get('singleRole');
+            if (role && !msg.member.roles.has(role)) return;
+        }
         msg.channel.startTyping();
         const message = msg.content.replace(mention, '');
         try {
