@@ -46,48 +46,7 @@ module.exports = class InfoCommand extends Command {
             .addField('Node Version',
                 process.version, true)
             .addField('Library',
-                '[discord.js](https://discord.js.org)', true)
-            .addField('Modules',
-                oneLine`
-                    [commando](https://github.com/Gawdl3y/discord.js-commando),
-                    [zalgoize](https://github.com/clux/zalgolize),
-                    [superagent](https://visionmedia.github.io/superagent),
-                    [mathjs](http://mathjs.org),
-                    [moment](http://momentjs.com),
-                    [moment-duration-format](https://github.com/jsmreese/moment-duration-format),
-                    [canvas](https://github.com/Automattic/node-canvas),
-                    [cheerio](https://cheerio.js.org),
-                    [sequelize](http://docs.sequelizejs.com),
-                    [tsubaki](https://github.com/iCrawl/tsubaki),
-                    [node-opus](https://github.com/Rantanen/node-opus)
-                `
-            )
-            .addField('APIs',
-                oneLine`
-                    [Wattpad](https://developer.wattpad.com),
-                    [Wordnik](http://developer.wordnik.com),
-                    [osu!](https://osu.ppy.sh/p/api),
-                    [memegen.link](https://memegen.link),
-                    [YuGiOh](http://docs.yugiohprices.apiary.io),
-                    [YouTube](https://developers.google.com/youtube),
-                    [Discord Bots](https://bots.discord.pw/api),
-                    [Today in History](http://history.muffinlabs.com/#api),
-                    [jService](http://jservice.io),
-                    [Urban Dictionary](https://github.com/zdict/zdict/wiki/Urban-dictionary-API-documentation),
-                    [OMDB](http://www.omdbapi.com),
-                    [Yahoo Weather](https://developer.yahoo.com/weather),
-                    [Wikipedia](https://en.wikipedia.org/w/api.php),
-                    [Google Maps](https://developers.google.com/maps),
-                    [Strawpoll](https://github.com/strawpoll/strawpoll/wiki/API),
-                    [rrrather](http://www.rrrather.com/botapi),
-                    [SoundCloud](https://developers.soundcloud.com),
-                    [random.cat](http://random.cat),
-                    [random.dog](https://random.dog),
-                    [fixer.io](http://fixer.io),
-                    [konachan](https://konachan.net),
-                    [cleverbot.io](https://cleverbot.io)
-                `
-            );
+                '[discord.js](https://github.com/hydrabolt/discord.js)[-commando](https://github.com/Gawdl3y/discord.js-commando)', true);
         return msg.embed(embed);
     }
 };

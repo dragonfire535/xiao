@@ -1,6 +1,6 @@
 {
   "name": "xiaobot",
-  "version": "19.3.4",
+  "version": "19.4.0",
   "description": "A Discord Bot",
   "main": "shardingmanager.js",
   "scripts": {
@@ -38,7 +38,7 @@
     "cheerio": "^0.22.0",
     "cleverio": "dragonfire535/cleverio",
     "custom-translate": "dragonfire535/custom-translate",
-    "discord.js": "hydrabolt/discord.js",
+    "discord.js": "hydrabolt/discord.js#4422f2aa8a72ae8765d91c2b1847785992075c33",
     "discord.js-commando": "gawdl3y/discord.js-commando",
     "erlpack": "hammerandchisel/erlpack",
     "mathjs": "^3.12.2",
@@ -47,8 +47,9 @@
     "node-opus": "^0.2.6",
     "pg": "^6.1.5",
     "sequelize": "^3.30.4",
-    "superagent": "^3.5.2",
+    "snekfetch": "^3.1.7",
     "tsubaki": "^1.1.0",
+    "xml2js": "^0.4.17",
     "zalgolize": "^1.2.4"
   }
 }
