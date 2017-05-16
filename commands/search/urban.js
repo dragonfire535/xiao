@@ -26,7 +26,7 @@ module.exports = class UrbanCommand extends Command {
         const { query } = args;
         try {
             const { body } = await snekfetch
-                .get(`http://api.urbandictionary.com/v0/define`)
+                .get('http://api.urbandictionary.com/v0/define')
                 .query({
                     term: query
                 });
@@ -41,7 +41,7 @@ module.exports = class UrbanCommand extends Command {
                     body.list[0].example.substr(0, 2000) || 'None');
             return msg.embed(embed);
         } catch (err) {
-            return msg.say(err);
+            return msg.say(`${err.name}: ${err.message}`);
         }
     }
 };

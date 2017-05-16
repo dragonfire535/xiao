@@ -34,9 +34,9 @@ module.exports = class KonachanCommand extends Command {
                 });
             if (!body.length) throw new Error('No Results.');
             return msg.say(query ? `Result for ${query}:` : 'Random Image:', { files: [`https:${body[0].file_url}`] })
-                .catch(err => msg.say(err));
+                .catch(err => msg.say(`${err.name}: ${err.message}`));
         } catch (err) {
-            return msg.say(err);
+            return msg.say(`${err.name}: ${err.message}`);
         }
     }
 };

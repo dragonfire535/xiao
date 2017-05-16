@@ -25,7 +25,7 @@ module.exports = class GoogleCommand extends Command {
         const message = await msg.say('Searching...');
         try {
             const { text } = await snekfetch
-                .get(`https://www.google.com/search`)
+                .get('https://www.google.com/search')
                 .query({
                     q: query
                 });
@@ -35,7 +35,7 @@ module.exports = class GoogleCommand extends Command {
             href = querystring.parse(href.replace('/url?', ''));
             return message.edit(href.q);
         } catch (err) {
-            return message.edit('Error: No Results.');
+            return message.edit(`${err.name}: ${err.message}`);
         }
     }
 };
