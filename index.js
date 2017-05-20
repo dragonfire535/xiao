@@ -29,6 +29,7 @@ client.registry
         ['userinfo', 'User Info'],
         ['guildinfo', 'Server Info'],
         ['moderation', 'Moderation'],
+        ['settings', 'Server Settings'],
         ['response', 'Random Response'],
         ['randomimg', 'Random Image'],
         ['avataredit', 'Avatar Manipulation'],
@@ -36,7 +37,6 @@ client.registry
         ['numedit', 'Number Manipulation'],
         ['search', 'Search'],
         ['games', 'Games'],
-        ['nsfw', 'NSFW'],
         ['random', 'Random/Other'],
         ['roleplay', 'Roleplay']
     ])
@@ -66,6 +66,16 @@ client.on('commandError', (command, err) => {
 });
 
 client.on('message', async (msg) => {
+    if (msg.guild && msg.guild.settings.get('guard') && /(discord(.gg\/|app.com\/invite\/))/g.test(msg.content)) {
+        if (msg.author.bot
+            || msg.member.hasPermission('ADMINISTRATOR')
+            || msg.author.id === msg.guild.ownerID
+            || msg.member.roles.has(msg.guild.settings.get('staffRole'))
+            || !msg.channel.permissionsFor(client.user).has('SEND_MESSAGES')) return;
+        if (msg.channel.permissionsFor(client.user).has('MANAGE_MESSAGES')) msg.delete();
+        else msg.channel.send('Message could not be deleted, missing the `Manage Messages` permission.');
+        return msg.reply('Invites are prohibited from being posted here.');
+    } else
     if (msg.isMentioned(client.user)) {
         if (msg.author.bot) return;
         if (msg.channel.type !== 'dm') {
