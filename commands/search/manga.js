@@ -39,7 +39,9 @@ module.exports = class MangaCommand extends Command {
                 .replace(/(&#039;)/g, '\'')
                 .replace(/(&mdash;)/g, '—')
                 .replace(/(&#034;)/g, '"')
-                .replace(/(&#038;)/g, '&');
+                .replace(/(&#038;)/g, '&')
+                .replace(/(&quot;)/g, '"')
+                .replace(/(\[i\]|\[\/i\])/g, '*');
             const embed = new RichEmbed()
                 .setColor(0x2D54A2)
                 .setAuthor('My Anime List', 'https://i.imgur.com/R4bmNFz.png')
