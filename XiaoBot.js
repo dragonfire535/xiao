@@ -142,11 +142,6 @@ client.on('guildDelete', async (guild) => {
     dBots(count, client.user.id);
 });
 
-client.setTimeout(() => {
-    console.log(`[Restart] Shard ${client.shard.id} Restarted.`);
-    process.exit(0);
-}, 14400000);
-
 client.login(TOKEN);
 
 process.on('unhandledRejection', console.error);
