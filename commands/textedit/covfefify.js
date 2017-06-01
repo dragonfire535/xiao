@@ -25,6 +25,11 @@ module.exports = class CovfefifyCommand extends Command {
 
     run(msg, args) {
         let { text } = args;
+		const covfefified = this.covfefify(text);
+        return msg.say(covfefified);
+    }
+
+	covfefify(text){
         const firstVowel = text.match(/[aeiouy]/i).index;
         let tempTest = text.substring(firstVowel, text.length);
         let afterConsonant = tempTest.match(/[qwrtpsdfghjklzxcvbnm]/i);
@@ -33,6 +38,6 @@ module.exports = class CovfefifyCommand extends Command {
         const last = text.match(/[qwrtpsdfghjklzxcvbnm]/g).pop();
         const swapped = letterTrans(last, dictionary);
         const res = text + (swapped + cut).repeat(2);
-        return msg.say(`\u180E${text}`);
-    }
+		return res;
+	}
 };
