@@ -19,7 +19,7 @@ module.exports = class CovfefifyCommand extends Command {
                         return 'Your text is too long.';
                     }
                 }
-	    ]
+            ]
         });
     }
 
