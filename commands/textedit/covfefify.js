@@ -15,7 +15,7 @@ module.exports = class CovfefifyCommand extends Command {
 					prompt: 'What text would you like to covfefify?',
 					type: 'string',
 					validate: text => {
-						if (text.length < 1999) return true;
+						if (this.covfefify(text).length < 1999) return true;
 						return 'Your text is too long.';
 					}
 				}
