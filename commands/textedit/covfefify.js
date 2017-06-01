@@ -1,5 +1,5 @@
 const Command = require('../../structures/Command');
-const { wordTrans } = require('custom-translate');
+const { translate } = require('custom-translate');
 const dictionary = require('../../assets/json/covfefe');
 
 module.exports = class CovfefifyCommand extends Command {
@@ -31,7 +31,7 @@ module.exports = class CovfefifyCommand extends Command {
         const cut = text.substring(afterConsonant.index + firstVowel + 1, test.length).match(/[aeiouy]/i)[0];
         text = text.substring(0, afterConsonant.index + firstVowel + 1);
         const last = text.match(/[qwrtpsdfghjklzxcvbnm]/g).pop();
-        const swapped = wordTrans(last, dictionary);
+        const swapped = translate.letterTrans(last, dictionary);
         const res = text + (swapped + cut).repeat(2);
         return msg.say(`\u180E${text}`);
     }
