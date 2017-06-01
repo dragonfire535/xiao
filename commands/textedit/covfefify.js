@@ -10,16 +10,16 @@ module.exports = class CovfefifyCommand extends Command {
             memberName: 'covfefify',
             description: 'Covfefify text.',
             args: [
-			    {
+                {
                     key: 'text',
                     prompt: 'What text would you like to covfefify?',
-					type: 'string',
+                    type: 'string',
                     validate: (text) => {
-					    if (this.covfefify(text).length < 1999) return true;
-					    return 'Your text is too long.';
+                        if (this.covfefify(text).length < 1999) return true;
+                        return 'Your text is too long.';
                     }
-				}
-			]
+                }
+	    ]
         });
     }
 
@@ -37,7 +37,6 @@ module.exports = class CovfefifyCommand extends Command {
         text = text.substring(0, afterConsonant.index + firstVowel + 1);
         const last = text.match(/[qwrtpsdfghjklzxcvbnm]/g).pop();
         const swapped = letterTrans(last, dictionary);
-        const res = text + (swapped + cut).repeat(2);
-        return res;
-	}
+        return text + (swapped + cut).repeat(2);
+    }
 };
