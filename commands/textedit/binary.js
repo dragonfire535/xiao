@@ -12,11 +12,10 @@ module.exports = class BinaryCommand extends Command {
                     key: 'text',
                     prompt: 'What text would you like to convert to binary?',
                     type: 'string',
-                    validate: text => {
+                    validate: (text) => {
                         if (this.binary(text).length < 2000) return true;
-                        return 'Your text is too long.';
-                    },
-                    parse: text => this.binary(text)
+                        else return 'Your text is too long.';
+                    }
                 }
             ]
         });
@@ -24,11 +23,12 @@ module.exports = class BinaryCommand extends Command {
 
     run(msg, args) {
         const { text } = args;
-        return msg.say(text);
+        const converted = this.binary(text);
+        return msg.say(converted);
     }
 
     binary(text) {
-        return unescape(encodeURIComponent(text)).split('').map(str => {
+        return unescape(encodeURIComponent(text)).split('').map((str) => {
             const converted = str.charCodeAt(0).toString(2);
             return `${'00000000'.slice(converted.length)}${converted}`;
         }).join('');

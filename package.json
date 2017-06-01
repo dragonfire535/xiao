@@ -1,10 +1,11 @@
 {
   "name": "xiaobot",
-  "version": "21.4.7",
+  "version": "22.0.0",
   "description": "A Discord Bot",
   "main": "Shard.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run lint",
+    "lint": "eslint .",
     "start": "node Shard.js"
   },
   "repository": {
@@ -23,12 +24,12 @@
     "postgresql",
     "cleverbot"
   ],
-  "author": "dragonfire535",
+  "author": "dragonfire535 <danielbodendahl@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/dragonfire535/xiaobot/issues"
   },
-  "homepage": "http://dragonfire535.weebly.com/xiaobot.html",
+  "homepage": "https://github.com/dragonfire535/xiaobot#readme",
   "engines": {
     "node": "8.0.0"
   },
@@ -51,5 +52,8 @@
     "tsubaki": "^1.1.0",
     "xml2js": "^0.4.17",
     "zalgolize": "^1.2.4"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0"
   }
 }

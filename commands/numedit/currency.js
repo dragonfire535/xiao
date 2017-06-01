@@ -15,21 +15,21 @@ module.exports = class CurrencyCommand extends Command {
                     key: 'base',
                     prompt: 'What currency code do you want to use as the base?',
                     type: 'string',
-                    validate: base => {
+                    validate: (base) => {
                         if (codes.includes(base.toUpperCase())) return true;
-                        return  'Invalid Currency Code. Use `help currency` to view a list of currency codes.';
+                        else return 'Invalid Currency Code. Use `help currency` to view a list of currency codes.';
                     },
-                    parse: base => base.toUpperCase()
+                    parse: (base) => base.toUpperCase()
                 },
                 {
                     key: 'to',
                     prompt: 'What currency code do you want to convert to?',
                     type: 'string',
-                    validate: to => {
+                    validate: (to) => {
                         if (codes.includes(to.toUpperCase())) return true;
-                        return 'Invalid Currency Code. Use `help currency` to view a list of currency codes.';
+                        else return 'Invalid Currency Code. Use `help currency` to view a list of currency codes.';
                     },
-                    parse: to => to.toUpperCase()
+                    parse: (to) => to.toUpperCase()
                 },
                 {
                     key: 'amount',
@@ -43,17 +43,12 @@ module.exports = class CurrencyCommand extends Command {
     async run(msg, args) {
         const { base, to, amount } = args;
         if (base === to) return msg.say(`Converting ${base} to ${to} is the same value, dummy.`);
-        try {
-            const { body } = await snekfetch
-                .get('http://api.fixer.io/latest')
-                .query({
-                    base,
-                    symbols: to
-                });
-            const rate = body.rates[to];
-            return msg.say(`${amount} ${base} is ${amount * rate} ${to}.`);
-        } catch (err) {
-            return msg.say(`${err.name}: ${err.message}`);
-        }
+        const { body } = await snekfetch
+            .get('http://api.fixer.io/latest')
+            .query({
+                base,
+                symbols: to
+            });
+        return msg.say(`${amount} ${base} is ${amount * body.rates[to]} ${to}.`);
     }
 };

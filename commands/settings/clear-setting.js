@@ -15,9 +15,9 @@ module.exports = class ClearSettingCommand extends Command {
                     key: 'setting',
                     prompt: 'What setting do you want to clear?',
                     type: 'string',
-                    validate: setting => {
+                    validate: (setting) => {
                         if (settings.includes(setting)) return true;
-                        return `Please enter one of the following: ${settings.join(', ')}.`;
+                        else return `Please enter one of the following: ${settings.join(', ')}.`;
                     }
                 }
             ]

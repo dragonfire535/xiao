@@ -13,11 +13,11 @@ module.exports = class RandomNameCommand extends Command {
                     key: 'gender',
                     prompt: 'Which gender do you want to generate a name for?',
                     type: 'string',
-                    validate: gender => {
+                    validate: (gender) => {
                         if (['male', 'female'].includes(gender.toLowerCase())) return true;
-                        return 'Please enter either `male` or `female`.';
+                        else return 'Please enter either `male` or `female`.';
                     },
-                    parse: gender => gender.toLowerCase()
+                    parse: (gender) => gender.toLowerCase()
                 }
             ]
         });
@@ -29,7 +29,7 @@ module.exports = class RandomNameCommand extends Command {
         if (gender === 'male') {
             const name = maleNames[Math.floor(Math.random() * maleNames.length)];
             return msg.say(`${name} ${lastName}`);
-        } else if (gender === 'female') {
+        } else {
             const name = femaleNames[Math.floor(Math.random() * femaleNames.length)];
             return msg.say(`${name} ${lastName}`);
         }

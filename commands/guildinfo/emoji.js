@@ -12,7 +12,8 @@ module.exports = class EmojiCommand extends Command {
     }
 
     run(msg) {
-        return msg.say(msg.guild.emojis.map(e => e).join(''))
-            .catch(() => msg.say('There was an error sending the emoji.'));
+        const emojis = msg.guild.emojis;
+        if (!emojis.size) return msg.say('You have no Custom Emoji.');
+        return msg.say(emojis.map((emoji) => emoji).join(''));
     }
 };

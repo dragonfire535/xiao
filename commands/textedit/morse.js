@@ -14,11 +14,10 @@ module.exports = class MorseCommand extends Command {
                     key: 'text',
                     prompt: 'What text would you like to convert to morse?',
                     type: 'string',
-                    validate: text => {
+                    validate: (text) => {
                         if (letterTrans(text, dictionary, ' ').length < 1999) return true;
-                        return 'Your text is too long.';
-                    },
-                    parse: text => letterTrans(text.toLowerCase(), dictionary, ' ')
+                        else return 'Your text is too long.';
+                    }
                 }
             ]
         });
@@ -26,6 +25,7 @@ module.exports = class MorseCommand extends Command {
 
     run(msg, args) {
         const { text } = args;
-        return msg.say(text);
+        const converted = letterTrans(text.toLowerCase(), dictionary, ' ');
+        return msg.say(converted);
     }
 };

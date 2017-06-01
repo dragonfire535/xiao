@@ -1,3 +1,5 @@
+/* eslint-disable indent */
+
 const { SettingProvider } = require('discord.js-commando');
 const Sequelize = require('sequelize');
 
@@ -93,18 +95,18 @@ class SequelizeProvider extends SettingProvider {
 			.set('commandPrefixChange', (guild, prefix) => this.set(guild, 'prefix', prefix))
 			.set('commandStatusChange', (guild, command, enabled) => this.set(guild, `cmd-${command.name}`, enabled))
 			.set('groupStatusChange', (guild, group, enabled) => this.set(guild, `grp-${group.id}`, enabled))
-			.set('guildCreate', guild => {
+			.set('guildCreate', (guild) => {
 				const settings = this.settings.get(guild.id);
 				if (!settings) return;
 				this.setupGuild(guild.id, settings);
 			})
-			.set('commandRegister', command => {
+			.set('commandRegister', (command) => {
 				for (const [guild, settings] of this.settings) {
 					if (guild !== 'global' && !client.guilds.has(guild)) continue;
 					this.setupGuildCommand(client.guilds.get(guild), command, settings);
 				}
 			})
-			.set('groupRegister', group => {
+			.set('groupRegister', (group) => {
 				for (const [guild, settings] of this.settings) {
 					if (guild !== 'global' && !client.guilds.has(guild)) continue;
 					this.setupGuildGroup(client.guilds.get(guild), group, settings);
@@ -229,7 +231,7 @@ class SequelizeProvider extends SettingProvider {
 		key = JSON.stringify(key);
 		val = typeof val !== 'undefined' ? JSON.stringify(val) : 'undefined';
 		this.client.shard.broadcastEval(`
-			if (this.shard.id !== ${this.client.shard.id} && this.provider && this.provider.settings) {
+			if(this.shard.id !== ${this.client.shard.id} && this.provider && this.provider.settings) {
 				this.provider.settings.global[${key}] = ${val};
 			}
 		`);

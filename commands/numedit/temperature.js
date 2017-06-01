@@ -12,21 +12,21 @@ module.exports = class TemperatureCommand extends Command {
                     key: 'base',
                     prompt: 'What temperature unit do you want to use as the base?',
                     type: 'string',
-                    validate: base => {
+                    validate: (base) => {
                         if (['celsius', 'fahrenheit', 'kelvin'].includes(base.toLowerCase())) return true;
-                        return 'Please enter either `celsius`, `fahrenheit`, or `kelvin`.';
+                        else return 'Please enter either `celsius`, `fahrenheit`, or `kelvin`.';
                     },
-                    parse: base => base.toLowerCase()
+                    parse: (base) => base.toLowerCase()
                 },
                 {
                     key: 'to',
                     prompt: 'What temperature unit do you want to convert to?',
                     type: 'string',
-                    validate: to => {
+                    validate: (to) => {
                         if (['celsius', 'fahrenheit', 'kelvin'].includes(to.toLowerCase())) return true;
-                        return 'Please enter either `celsius`, `fahrenheit`, or `kelvin`.';
+                        else return 'Please enter either `celsius`, `fahrenheit`, or `kelvin`.';
                     },
-                    parse: to => to.toLowerCase()
+                    parse: (to) => to.toLowerCase()
                 },
                 {
                     key: 'amount',
@@ -42,13 +42,13 @@ module.exports = class TemperatureCommand extends Command {
         if (base === to) return msg.say(`Converting ${base} to ${to} is the same value, dummy.`);
         if (base === 'celsius') {
             if (to === 'fahrenheit') return msg.say(`${amount}°C is ${(amount * 1.8) + 32}°F.`);
-            if (to === 'kelvin') return msg.say(`${amount}°C is ${amount + 273.15}°K.`);
+            else return msg.say(`${amount}°C is ${amount + 273.15}°K.`);
         } else if (base === 'fahrenheit') {
             if (to === 'celsius') return msg.say(`${amount}°F is ${(amount - 32) / 1.8}°C.`);
-            if (to === 'kelvin') return msg.say(`${amount}°F is ${(amount + 459.67) * (5 / 9)}°K.`);
-        } else if (base === 'kelvin') {
+            else return msg.say(`${amount}°F is ${(amount + 459.67) * (5 / 9)}°K.`);
+        } else {
             if (to === 'celsius') return msg.say(`${amount}°K is ${amount - 273.15}°C.`);
-            if (to === 'fahrenheit') return msg.say(`${amount}°K is ${(amount * 1.8) - 459.67}°F.`);
+            else return msg.say(`${amount}°K is ${(amount * 1.8) - 459.67}°F.`);
         }
     }
 };
