@@ -24,7 +24,7 @@ module.exports = class CovfefifyCommand extends Command {
     }
 
     run(msg, args) {
-        let { text } = args;
+        const { text } = args;
 		const converted = this.covfefify(text);
         return msg.say(`\u180E${converted}`);
     }
