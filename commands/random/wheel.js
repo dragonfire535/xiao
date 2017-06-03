@@ -25,7 +25,7 @@ module.exports = class HoroscopeCommand extends Command {
                     type: 'string',
                     validate: (text) => {
                         if (text.length < 52) return true;
-                        else return 'Your text is too long!.';
+                        else return 'Your text is too long!';
                     }
                 }
             ]
