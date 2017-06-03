@@ -45,11 +45,9 @@ module.exports = class HoroscopeCommand extends Command {
         const len = text.length;
         let lines = ["", "", "", ""]
         //52 chars max
-        let words = text.split(" ")
-        let clue = words.shift();
+        const words = text.split(" ")
         let currentLine = 0;
         for (let i = 0; i < words.length; i++) {
-            console.log(currentLine)
             if ((currentLine == 0 || currentLine == 3) && lines[currentLine].length + words[i].length < 12) {
                 lines[currentLine] += (lines[currentLine].length == 0 ? "" : " ") + words[i];
             } else if ((currentLine == 1 || currentLine == 2) && lines[currentLine].length + words[i].length < 14) {
