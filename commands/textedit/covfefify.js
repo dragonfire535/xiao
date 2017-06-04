@@ -23,13 +23,13 @@ module.exports = class CovfefifyCommand extends Command {
         });
     }
 
-    async run(msg, args) {
+    run(msg, args) {
         const { text } = args;
         const converted = this.covfefify(text);
         return msg.say(`\u180E${converted}`);
     }
 
-    async covfefify(text) {
+    covfefify(text) {
         text = text.toLowerCase();
         const words = text.split(' ');
         for (let i = 0; i < words.length; i++){
