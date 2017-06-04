@@ -1,11 +1,10 @@
 const Command = require('../../structures/Command');
-const snekfetch = require('snekfetch');
 
 module.exports = class HoroscopeCommand extends Command {
     constructor(client) {
         super(client, {
             name: 'wof',
-            aliases: ['wheel', 'wheeloffortune'],
+            aliases: [ 'wheel', 'wheeloffortune' ],
             group: 'random',
             memberName: 'wof',
             description: 'Generates a wheel of fortune board.',
@@ -16,7 +15,7 @@ module.exports = class HoroscopeCommand extends Command {
                     type: 'string',
                     validate: (clue) => {
                         if (clue.length < 25) return true;
-                        else return 'Your clue is too long!.';
+                        else return 'Your clue is too long!';
                     }
                 },
                 {
@@ -35,7 +34,6 @@ module.exports = class HoroscopeCommand extends Command {
     async run(msg, args) {
         const { clue, text } = args;
         const url = wheel(clue, text);
-        const r = await snekfetch.get(url)
         return msg.say(files: [{ attachment: url, name: "wof.png" }]);
     }
     
