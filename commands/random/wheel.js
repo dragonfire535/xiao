@@ -39,25 +39,25 @@ module.exports = class HoroscopeCommand extends Command {
     
     wheel(clue, text){
         const { clue, text } = args;
-        let url = "http://atom.smasher.org/wof/word-puzzle.jpg.php?";
+        let url = 'http://atom.smasher.org/wof/word-puzzle.jpg.php?';
         const len = text.length;
-        let lines = ["", "", "", ""]
+        let lines = ['', '', '', '']
         //52 chars max
-        const words = text.split(" ")
+        const words = text.split(' ')
         let currentLine = 0;
         for (let i = 0; i < words.length; i++) {
             if ((currentLine == 0 || currentLine == 3) && lines[currentLine].length + words[i].length < 12) {
-                lines[currentLine] += (lines[currentLine].length == 0 ? "" : " ") + words[i];
+                lines[currentLine] += (lines[currentLine].length == 0 ? '' : ' ') + words[i];
             } else if ((currentLine == 1 || currentLine == 2) && lines[currentLine].length + words[i].length < 14) {
-                lines[currentLine] += (lines[currentLine].length == 0 ? "" : " ") + words[i];
+                lines[currentLine] += (lines[currentLine].length == 0 ? '' : ' ') + words[i];
             } else {
                 currentLine += 1;
-                lines[currentLine] += (lines[currentLine].length == 0 ? "" : " ") + words[i];
+                lines[currentLine] += (lines[currentLine].length == 0 ? '' : ' ') + words[i];
             }
         }
 
         for (let i = 0; i < 4; i++) {
-            lines[i] = lines[i].replace(/\s/g, "%20");
+            lines[i] = lines[i].replace(/\s/g, '%20');
             if (i == 0)
                 url += `l1=${lines[i]}`
             else
