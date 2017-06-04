@@ -32,7 +32,7 @@ module.exports = class CovfefifyCommand extends Command {
     covfefify(text) {
         text = text.toLowerCase();
         const words = text.split(' ');
-        for (let i = 0; i < words.length; i++){
+        for (let i = 0; i < words.length; i++) {
             const firstVowel = words[i].match(/[aeiouy]/).index;
             const tempTest = words[i].substring(firstVowel, text.length);
             const afterConsonant = tempTest.match(/[qwrtpsdfghjklzxcvbnm]/);
