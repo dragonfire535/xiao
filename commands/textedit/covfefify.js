@@ -31,13 +31,17 @@ module.exports = class CovfefifyCommand extends Command {
 
     covfefify(text) {
         text = text.toLowerCase();
-        const firstVowel = text.match(/[aeiouy]/).index;
-        const tempTest = text.substring(firstVowel, text.length);
-        const afterConsonant = tempTest.match(/[qwrtpsdfghjklzxcvbnm]/);
-        const cut = text.substring(afterConsonant.index + firstVowel + 1, text.length).match(/[aeiouy]/i)[0];
-        text = text.substring(0, afterConsonant.index + firstVowel + 1);
-        const last = text.match(/[qwrtpsdfghjklzxcvbnm]/g).pop();
-        const swapped = letterTrans(last, dictionary);
-        return text + (swapped + cut).repeat(2);
+        let words = text.split(' ');
+        for(let i = 0; i < words.length; i++){
+            const firstVowel = words[i].match(/[aeiouy]/).index;
+            const tempTest = words[i].substring(firstVowel, text.length);
+            const afterConsonant = tempTest.match(/[qwrtpsdfghjklzxcvbnm]/);
+            const cut = words[i].substring(afterConsonant.index + firstVowel + 1, words[i].length).match(/[aeiouy]/i)[0];
+            words[i] = words[i].substring(0, afterConsonant.index + firstVowel + 1);
+            const last = words[i].match(/[qwrtpsdfghjklzxcvbnm]/g).pop();
+            const swapped = letterTrans(last, dictionary);
+            words[i] = words[i] + (swapped + cut).repeat(2);
+        }
+        return words.join(' ')
     }
 };
