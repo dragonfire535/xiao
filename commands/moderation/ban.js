@@ -57,7 +57,7 @@ module.exports = class BanCommand extends Command {
                 reason: `${msg.author.tag}: ${reason}`
             });
             await msg.say(`Successfully banned ${member.user.tag}.`);
-            if (!modlogs || !modlogs.permissionsFor(this.client.user.has('SEND_MESSAGES'))) {
+            if (!modlogs || !modlogs.permissionsFor(this.client.user).has('SEND_MESSAGES')) {
                 return msg.say('Could not log the ban to the mod logs.');
             } else if (!modlogs.permissionsFor(this.client.user).has('EMBED_LINKS')) {
                 return modlogs.send(stripIndents`
