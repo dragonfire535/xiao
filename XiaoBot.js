@@ -52,16 +52,51 @@ client.on('warn', console.warn);
 
 client.on('commandError', (command, err) => console.error(command.name, err));
 
+client.on('message', (msg) => {
+    if (!msg.guild) return;
+    if (msg.author.bot || msg.member.hasPermission('ADMINISTRATOR')) return;
+    const topic = msg.guild.defaultChannel.topic || '';
+    if (!topic.includes('<inviteguard>')) return;
+    if (/(discord(\.gg\/|app\.com\/invite\/|\.me\/))/gi.test(msg.content)) {
+        if (msg.channel.permissionsFor(client.user).has('MANAGE_MESSAGES')) msg.delete();
+        msg.reply('Invites are prohibited from being posted here.');
+    }
+});
+
 client.on('guildMemberAdd', (member) => {
-    const channel = member.guild.channels.find('name', 'member-log');
+    const channel = member.guild.channels.filter((channel) => {
+        const topic = channel.topic || '';
+        if (topic.includes('<memberlog>')) return true;
+    }).first() || member.guild.channels.find('name', 'member-log');
     if (!channel || !channel.permissionsFor(client.user).has('SEND_MESSAGES')) return;
-    channel.send(`Welcome ${member.user.username}!`);
+    const parseMsg = (topic) => {
+        if (!topic || !/(<joinmessage:.+>)/gi.test(topic)) return '';
+        const setting = topic.match(/(<joinmessage:.+>)/gi)[0];
+        return setting.slice(13, setting.length - 1)
+            .replace(/(\(member\))/gi, member.user.username)
+            .replace(/(\(server\))/gi, member.guild.name)
+            .replace(/(\(mention\))/gi, member.toString());
+    };
+    const msg = channel.topic ? parseMsg(channel.topic) : '';
+    channel.send(msg || `Welcome ${member.user.username}!`);
 });
 
 client.on('guildMemberRemove', (member) => {
-    const channel = member.guild.channels.find('name', 'member-log');
+    const channel = member.guild.channels.filter((channel) => {
+        const topic = channel.topic || '';
+        if (topic.includes('<memberlog>')) return true;
+    }).first() || member.guild.channels.find('name', 'member-log');
     if (!channel || !channel.permissionsFor(client.user).has('SEND_MESSAGES')) return;
-    channel.send(`Bye ${member.user.username}...`);
+    const parseMsg = (topic) => {
+        if (!topic || !/(<leavemessage:.+>)/gi.test(topic)) return '';
+        const setting = topic.match(/(<leavemessage:.+>)/gi)[0];
+        return setting.slice(14, setting.length - 1)
+            .replace(/(\(member\))/gi, member.user.username)
+            .replace(/(\(server\))/gi, member.guild.name)
+            .replace(/(\(mention\))/gi, member.toString());
+    };
+    const msg = channel.topic ? parseMsg(channel.topic) : '';
+    channel.send(msg || `Bye ${member.user.username}...`);
 });
 
 client.on('guildCreate', async (guild) => {
