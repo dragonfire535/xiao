@@ -1,6 +1,6 @@
 {
   "name": "xiaobot",
-  "version": "25.2.0",
+  "version": "26.0.0",
   "description": "Your personal server companion.",
   "main": "Shard.js",
   "scripts": {
@@ -35,7 +35,6 @@
     "bufferutil": "^3.0.1",
     "canvas": "automattic/node-canvas",
     "cheerio": "^1.0.0-rc.1",
-    "cleverio": "dragonfire535/cleverio",
     "custom-translate": "dragonfire535/custom-translate",
     "discord.js": "hydrabolt/discord.js",
     "discord.js-commando": "gawdl3y/discord.js-commando",

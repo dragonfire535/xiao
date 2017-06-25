@@ -6,9 +6,18 @@ const client = new CommandoClient({
     owner: OWNER,
     invite: INVITE,
     disableEveryone: true,
-    unknownCommandResponse: false
+    unknownCommandResponse: false,
+    disabledEvents: [
+        'PRESENCE_UPDATE',
+        'TYPING_START',
+        'VOICE_STATE_UPDATE',
+        'FRIEND_ADD',
+        'FRIEND_REMOVE'
+    ],
+    messageCacheLifetime: 60,
+    messageSweepInterval: 60
 });
-const { carbon, dBots } = require('./structures/Stats');
+const { carbon, dBots } = require('./structures/Util');
 
 client.registry
     .registerDefaultTypes()
