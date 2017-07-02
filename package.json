@@ -1,6 +1,6 @@
 {
   "name": "xiaobot",
-  "version": "26.0.1",
+  "version": "26.1.0",
   "description": "Your personal server companion.",
   "main": "Shard.js",
   "scripts": {
@@ -19,8 +19,7 @@
     "discord-api",
     "discord-bot",
     "discord-js",
-    "discord-js-commando",
-    "cleverbot"
+    "discord-js-commando"
   ],
   "author": "dragonfire535 <danielbodendahl@gmail.com>",
   "license": "ISC",
