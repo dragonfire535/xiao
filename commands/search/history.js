@@ -1,7 +1,7 @@
 const Command = require('../../structures/Command');
 const snekfetch = require('snekfetch');
 
-module.exports = class AnimeCommand extends Command {
+module.exports = class HistoryCommand extends Command {
     constructor(client) {
         super(client, {
             name: 'history',
