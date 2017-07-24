@@ -11,6 +11,7 @@ class Util {
             .replace(/(&#038;)/g, '&')
             .replace(/(\[i\]|\[\/i\])/g, '*');
     }
+
     static dBots(count, id) {
         snekfetch
             .post(`https://bots.discord.pw/api/bots/${id}/stats`)
