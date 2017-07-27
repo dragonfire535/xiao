@@ -1,9 +1,4 @@
-# Packages
 node_modules/
-
-# Log Files
+package-lock.json
 logs/
 *.log
-
-# Config
-config.json
