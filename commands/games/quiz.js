@@ -10,25 +10,40 @@ module.exports = class QuizCommand extends Command {
 			aliases: ['jeopardy'],
 			group: 'games',
 			memberName: 'quiz',
-			description: 'Answer a true/false quiz question.',
-			clientPermissions: ['EMBED_LINKS']
+			description: 'Answer a quiz question.',
+			clientPermissions: ['EMBED_LINKS'],
+			args: [
+				{
+					key: 'type',
+					prompt: 'Which type of question would you like to have? `multiple` or `boolean`.',
+					type: 'string',
+					default: 'boolean',
+					validate: type => {
+						if (['multiple', 'boolean'].includes(type.toLowerCase())) return true;
+						return 'Please enter either `multiple` or `boolean`.';
+					},
+					parse: type => type.toLowerCase()
+				}
+			]
 		});
 	}
 
-	async run(msg) {
+	async run(msg, args) {
+		const { type } = args;
 		const { body } = await snekfetch
 			.get('https://opentdb.com/api.php')
 			.query({
 				amount: 1,
-				type: 'boolean',
+				type,
 				encode: 'url3986'
 			});
-		const answer = body.results[0].correct_answer.toLowerCase();
+		if (!body.results.length) return msg.say('Oh no, a question could not be fetched. Try again later!');
+		const answer = decodeURIComponent(body.results[0].correct_answer.toLowerCase());
 		const embed = new MessageEmbed()
 			.setTitle('You have 15 seconds to answer this question:')
 			.setDescription(stripIndents`
 				**${decodeURIComponent(body.results[0].category)}**
-				True or False: ${decodeURIComponent(body.results[0].question)}
+				${type === 'boolean' ? 'True or False: ' : ''}${decodeURIComponent(body.results[0].question)}
 			`);
 		await msg.embed(embed);
 		const msgs = await msg.channel.awaitMessages(res => res.author.id === msg.author.id, {
