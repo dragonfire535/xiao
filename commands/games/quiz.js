@@ -2,6 +2,7 @@ const Command = require('../../structures/Command');
 const { MessageEmbed } = require('discord.js');
 const { stripIndents } = require('common-tags');
 const snekfetch = require('snekfetch');
+const { shuffle, list } = require('../../structures/Util');
 
 module.exports = class QuizCommand extends Command {
 	constructor(client) {
@@ -37,21 +38,24 @@ module.exports = class QuizCommand extends Command {
 				type,
 				encode: 'url3986'
 			});
-		if (!body.results.length) return msg.say('Oh no, a question could not be fetched. Try again later!');
-		const answer = decodeURIComponent(body.results[0].correct_answer.toLowerCase());
+		if (!body.results) return msg.say('Oh no, a question could not be fetched. Try again later!');
+		const answers = body.results[0].incorrect_answers.map(answer => decodeURIComponent(answer.toLowerCase()));
+		const correct = decodeURIComponent(body.results[0].correct_answer.toLowerCase());
+		answers.push(correct);
 		const embed = new MessageEmbed()
 			.setTitle('You have 15 seconds to answer this question:')
 			.setDescription(stripIndents`
 				**${decodeURIComponent(body.results[0].category)}**
-				${type === 'boolean' ? 'True or False: ' : ''}${decodeURIComponent(body.results[0].question)}
+				${type === 'boolean' ? '**True or False:** ' : ''}${decodeURIComponent(body.results[0].question)}
+				${type === 'multiple' ? `**Choices:** ${list(shuffle(answers), 'or')}` : ''}
 			`);
 		await msg.embed(embed);
 		const msgs = await msg.channel.awaitMessages(res => res.author.id === msg.author.id, {
 			max: 1,
 			time: 15000
 		});
-		if (!msgs.size) return msg.say(`Time! It was ${answer}, sorry!`);
-		if (msgs.first().content.toLowerCase() !== answer) return msg.say(`Nope, sorry, it's ${answer}.`);
+		if (!msgs.size) return msg.say(`Time! It was ${correct}, sorry!`);
+		if (msgs.first().content.toLowerCase() !== correct) return msg.say(`Nope, sorry, it's ${correct}.`);
 		return msg.say('Nice job! 10/10! You deserve some cake!');
 	}
 };
