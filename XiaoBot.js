@@ -1,8 +1,8 @@
-const { TOKEN, OWNER, PREFIX, INVITE } = process.env;
+const { TOKEN, OWNER, COMMAND_PREFIX, INVITE } = process.env;
 const path = require('path');
 const { CommandoClient } = require('discord.js-commando');
 const client = new CommandoClient({
-	commandPrefix: PREFIX,
+	commandPrefix: COMMAND_PREFIX,
 	owner: OWNER,
 	invite: INVITE,
 	disableEveryone: true,
@@ -45,7 +45,7 @@ client.registry
 
 client.on('ready', () => {
 	console.log(`[READY] Shard ${client.shard.id} Logged in as ${client.user.tag} (${client.user.id})!`);
-	client.user.setGame(`${PREFIX}help | Shard ${client.shard.id}`);
+	client.user.setGame(`${COMMAND_PREFIX}help | Shard ${client.shard.id}`);
 });
 
 client.on('disconnect', event => {
