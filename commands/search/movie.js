@@ -28,7 +28,7 @@ module.exports = class MovieCommand extends Command {
 			.get('http://api.themoviedb.org/3/search/movie')
 			.query({
 				api_key: TMDB_KEY,
-				include_adult: msg.channel.nsfw,
+				include_adult: msg.channel.nsfw || false,
 				query
 			});
 		if (!search.body.results.length) return msg.say('No Results.');
@@ -40,14 +40,14 @@ module.exports = class MovieCommand extends Command {
 			.setTitle(body.title)
 			.setURL(`https://www.themoviedb.org/movie/${body.id}`)
 			.setAuthor('TMDB', 'https://i.imgur.com/G9q4DF1.png')
-			.setDescription(body.overview.substr(0, 2048))
+			.setDescription(body.overview ? body.overview.substr(0, 2048) : 'No description available.')
 			.setThumbnail(body.poster_path ? `https://image.tmdb.org/t/p/w500${body.poster_path}` : null)
 			.addField('❯ Runtime',
-				`${body.runtime} mins.`, true)
+				body.runtime ? `${body.runtime} mins.` : 'N/A', true)
 			.addField('❯ Release Date',
-				body.release_date, true)
+				body.release_date || 'N/A', true)
 			.addField('❯ Genres',
-				body.genres.map(genre => genre.name).join(', '))
+				body.genres.length ? body.genres.map(genre => genre.name).join(', ') : 'N/A')
 			.addField('❯ Production Companies',
 				body.production_companies.length ? body.production_companies.map(company => company.name).join(', ') : 'N/A');
 		return msg.embed(embed);
