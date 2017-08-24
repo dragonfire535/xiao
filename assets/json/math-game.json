@@ -1,9 +1,26 @@
 {
-	"operations": [
-		"+",
-		"-",
-		"*"
-	],
+	"operations": {
+		"easy": [
+			"+",
+			"-"
+		],
+		"medium": [
+			"+",
+			"-"
+		],
+		"hard": [
+			"-",
+			"*"
+		],
+		"extreme": [
+			"*",
+			"/"
+		],
+		"impossible": [
+			"/",
+			"^"
+		]
+	},
 	"difficulties": [
 		"easy",
 		"medium",
@@ -12,10 +29,10 @@
 		"impossible"
 	],
 	"maxValues": {
-		"easy": 10,
-		"medium": 50,
-		"hard": 100,
-		"extreme": 1000,
-		"impossible": 10000
+		"easy": 5,
+		"medium": 10,
+		"hard": 50,
+		"extreme": 75,
+		"impossible": 100
 	}
 }
