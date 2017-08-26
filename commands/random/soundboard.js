@@ -1,6 +1,7 @@
 const Command = require('../../structures/Command');
-const sounds = require('../../assets/json/soundboard');
+const { list } = require('../../structures/Util');
 const path = require('path');
+const sounds = ['airhorn', 'cat', 'dun-dun-dun', 'pikachu', 'space'];
 
 module.exports = class SoundboardCommand extends Command {
 	constructor(client) {
@@ -20,11 +21,11 @@ module.exports = class SoundboardCommand extends Command {
 			args: [
 				{
 					key: 'sound',
-					prompt: 'What sound would you like to play?',
+					prompt: `What sound would you like to play? Either ${list(sounds, 'or')}.`,
 					type: 'string',
 					validate: sound => {
 						if (sounds.includes(sound.toLowerCase())) return true;
-						return 'Invalid Sound. Use `help soundboard` for a list of sounds.';
+						return `Invalid sound, please enter either ${list(sounds, 'or')}.`;
 					},
 					parse: sound => sound.toLowerCase()
 				}
