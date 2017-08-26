@@ -7,11 +7,7 @@ const client = new CommandoClient({
 	invite: INVITE,
 	disableEveryone: true,
 	unknownCommandResponse: false,
-	disabledEvents: [
-		'TYPING_START',
-		'FRIEND_ADD',
-		'FRIEND_REMOVE'
-	],
+	disabledEvents: ['TYPING_START'],
 	messageCacheLifetime: 60,
 	messageSweepInterval: 120
 });
