@@ -39,7 +39,7 @@
 		"erlpack": "github:discordapp/erlpack",
 		"mathjs": "^4.3.0",
 		"node-opus": "^0.3.0",
-		"pg": "^6.4.2",
+		"pg": "^7.4.3",
 		"pg-hstore": "^2.3.2",
 		"random-js": "^1.0.8",
 		"sequelize": "^4.37.10",
