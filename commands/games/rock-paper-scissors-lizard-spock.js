@@ -26,37 +26,38 @@ module.exports = class RockPaperScissorsLizardSpockCommand extends Command {
 			if (response === 'rock') return msg.reply('I chose rock! Aw... A tie...');
 			if (response === 'paper') return msg.reply('I chose paper! Yes! I win!');
 			if (response === 'scissors') return msg.reply('I chose scissors! Aw... I lose...');
-      if (response === 'lizard') return msg.reply('I chose lizard! Aw... I lose...');
-      if (response === 'spock') return msg.reply('I chose Spock! Yes! I win!');
+			if (response === 'lizard') return msg.reply('I chose lizard! Aw... I lose...');
+			if (response === 'spock') return msg.reply('I chose Spock! Yes! I win!');
 		}
-    if (choice === 'paper') {
+		if (choice === 'paper') {
 			if (response === 'rock') return msg.reply('I chose rock! Aw... I lose...');
 			if (response === 'paper') return msg.reply('I chose paper! Aw... A tie...');
 			if (response === 'scissors') return msg.reply('I chose scissors! Yes! I win!');
-      if (response === 'lizard') return msg.reply('I chose lizard! Yes! I win!');
-      if (response === 'spock') return msg.reply('I chose Spock! Aw... I lose...');
+			if (response === 'lizard') return msg.reply('I chose lizard! Yes! I win!');
+			if (response === 'spock') return msg.reply('I chose Spock! Aw... I lose...');
 		}
-    if (choice === 'scissors') {
+		if (choice === 'scissors') {
 			if (response === 'rock') return msg.reply('I chose rock! Yes! I win!');
 			if (response === 'paper') return msg.reply('I chose paper! Aw... I lose...');
 			if (response === 'scissors') return msg.reply('I chose scissors! Aw... A tie...');
-      if (response === 'lizard') return msg.reply('I chose lizard! Aw... I lose...');
-      if (response === 'spock') return msg.reply('I chose Spock! Yes! I win!');
+			if (response === 'lizard') return msg.reply('I chose lizard! Aw... I lose...');
+			if (response === 'spock') return msg.reply('I chose Spock! Yes! I win!');
 		}
-    if (choice === 'lizard') {
+		if (choice === 'lizard') {
 			if (response === 'rock') return msg.reply('I chose rock! Yes! I win!');
 			if (response === 'paper') return msg.reply('I chose paper! Aw... I lose...');
 			if (response === 'scissors') return msg.reply('I chose scissors! Yes! I win!');
-      if (response === 'lizard') return msg.reply('I chose lizard! Aw... A tie...');
-      if (response === 'spock') return msg.reply('I chose Spock! Aw... I lose...');
+			if (response === 'lizard') return msg.reply('I chose lizard! Aw... A tie...');
+			if (response === 'spock') return msg.reply('I chose Spock! Aw... I lose...');
 		}
-    if (choice === 'spock') {
+		if (choice === 'spock') {
 			if (response === 'rock') return msg.reply('I chose rock! Aw... I lose...');
 			if (response === 'paper') return msg.reply('I chose paper! Yes! I win!');
 			if (response === 'scissors') return msg.reply('I chose scissors! Aw... I lose...');
-      if (response === 'lizard') return msg.reply('I chose Spock! Aw... I lose...');
-      if (response === 'spock') return msg.reply('I chose Spock! Aw... A tie...');
+			if (response === 'lizard') return msg.reply('I chose Spock! Aw... I lose...');
+			if (response === 'spock') return msg.reply('I chose Spock! Aw... A tie...');
 		}
+		
 		return msg.reply('I win by default, you little cheater.');
 	}
 };
