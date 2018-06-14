@@ -57,7 +57,6 @@ module.exports = class RockPaperScissorsLizardSpockCommand extends Command {
 			if (response === 'lizard') return msg.reply('I chose Spock! Aw... I lose...');
 			if (response === 'spock') return msg.reply('I chose Spock! Aw... A tie...');
 		}
-		
 		return msg.reply('I win by default, you little cheater.');
 	}
 };
