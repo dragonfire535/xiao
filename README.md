@@ -13,7 +13,7 @@ Xiao is a Discord bot coded in JavaScript with
 You can invite the bot to your server using
 [this link](https://discordapp.com/oauth2/authorize?client_id=278305350804045834&scope=bot&permissions=372632641).
 Be sure to also join the [home server](https://discord.gg/sbMe32W) for
-information and support. 
+information and support.
 
 ## Commands (302)
 ### Utility:
@@ -207,6 +207,7 @@ information and support.
 * **math-quiz**: See how fast you can answer a math problem in a given time limit.
 * **quiz**: Answer a quiz question.
 * **rock-paper-scissors**: Play Rock-Paper-Scissors.
+* **rock-paper-scissors-lizard-spock**: Play Rock-Paper-Scissors-Lizard-Spock.
 * **roulette**: Play a game of roulette.
 * **slots**: Play a game of slots.
 * **sorting-hat-quiz**: Take a quiz to determine your Hogwarts house.
