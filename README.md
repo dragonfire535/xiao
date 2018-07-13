@@ -209,6 +209,7 @@ information and support.
 * **math-quiz**: See how fast you can answer a math problem in a given time limit.
 * **quiz**: Answer a quiz question.
 * **rock-paper-scissors**: Play Rock-Paper-Scissors.
+* **rock-paper-scissors-lizard-spock**: Play Rock-Paper-Scissors-Lizard-Spock.
 * **roulette**: Play a game of roulette.
 * **slots**: Play a game of slots.
 * **sorting-hat-quiz**: Take a quiz to determine your Hogwarts house.
