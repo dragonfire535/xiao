@@ -14,9 +14,13 @@ module.exports = class ImageArgumentType extends ArgumentType {
 			if (attachment.size > 8e+6) return 'Please provide an image under 8 MB.';
 			if (!fileTypeRe.test(attachment.name)) return 'Please only send PNG, JPG, or GIF format images.';
 			return true;
-  } else if  (fileTypeRe.test(value.toLowerCase())) {
-		 try{ await request.get(value) }catch(err){ return false; }
-		      return true;
+		} else if (fileTypeRe.test(value.toLowerCase())) {
+			try {
+				await request.get(value);
+				return true;
+			} catch(err) {
+				return false;
+			}
 		}
 		return this.client.registry.types.get('user').validate(value, msg, arg);
 	}
