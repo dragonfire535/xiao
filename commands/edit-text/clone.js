@@ -34,12 +34,11 @@ module.exports = class CloneCommand extends Command {
 			if (msg.guild && msg.deletable) await msg.delete();
 			msg.channel.createWebhook(`Clone of ${user.username} by ${msg.author.username}`, `${user.displayAvatarURL}`)
 			.then(webhook => webhook.edit(`Clone of ${user.username} by ${msg.author.username}`, `${user.displayAvatarURL}`))
-			.then(webhook => webhook.send(content, {
-				username: `${user.username}`,
-				avatarURL: `${(user.displayAvatarURL({ format, size: 2048 }))}`,
-			}))
-			console.log(`${msg.author.username} Cloned ${user.username} and said "${content}" `)
-			
+				.then(webhook => webhook.send(content, {
+					username: `${user.username}`,
+					avatarURL: `${user.displayAvatarURL({ format, size: 2048 })}`
+				}));
+			console.log(`${msg.author.username} Cloned ${user.username} and said "${content}" `);
 			return null;
 		} catch (err) {
 			return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Try again later!`);
