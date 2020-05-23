@@ -21,6 +21,6 @@ module.exports = class CrabRaveCommand extends Command {
 
 	run(msg, { rave }) {
 		msg.delete();
-		return msg.say(`:crab: ${rave} :crab:`);	
+		return msg.say(`:crab: ${rave} :crab:`);
 	}
 };
