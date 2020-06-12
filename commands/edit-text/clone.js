@@ -32,6 +32,7 @@ module.exports = class CloneCommand extends Command {
 		if (format === 'gif') formats.push('gif');
 		try {
 			if (msg.guild && msg.deletable) await msg.delete();
+<<<<<<< HEAD
 			msg.channel.createWebhook(`Clone of ${user.username} by ${msg.author.username}`, `${user.displayAvatarURL}`)
 			.then(webhook => webhook.edit(`Clone of ${user.username} by ${msg.author.username}`, `${user.displayAvatarURL}`))
 			.then(webhook => webhook.send(content, {
@@ -40,6 +41,15 @@ module.exports = class CloneCommand extends Command {
 			}))
 			console.log(`${msg.author.username} Cloned ${user.username} and said "${content}" `)
 			
+=======
+			msg.channel.createWebhook(`Clone of ${user.username} by ${msg.author.username}`)
+				.then(webhook => webhook.edit(`Clone of ${user.username} by ${msg.author.username}`))
+				.then(webhook => webhook.send(content, {
+					username: `${user.username}`,
+					avatarURL: `${user.displayAvatarURL({ format, size: 2048 })}`
+				}));
+			console.log(`${msg.author.username} Cloned ${user.username} and said "${content}" `);
+>>>>>>> 1d0572bb7f29e4de364d42b4843e9202645f8afb
 			return null;
 		} catch (err) {
 			return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Try again later!`);

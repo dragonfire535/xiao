@@ -22,6 +22,10 @@ module.exports = class GifCommand extends ImgurAlbumCommand {
 	}
 
 	generateText() {
+<<<<<<< HEAD
 		return '';
+=======
+		return 'heres your gif master';
+>>>>>>> 1d0572bb7f29e4de364d42b4843e9202645f8afb
 	}
 };

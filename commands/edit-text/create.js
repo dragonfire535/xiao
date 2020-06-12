@@ -38,6 +38,7 @@ module.exports = class createCommand extends Command {
 		try {
 			if (msg.guild && msg.deletable) await msg.delete();
 			msg.channel.createWebhook(`Creation by ${msg.author.username} of ${user}`, `${icon}`)
+<<<<<<< HEAD
 			.then(webhook => webhook.edit(`Creation by ${msg.author.username} of ${user}`, `${icon}`))
 			.then(webhook => webhook.send(content, {
 				username: `${user}`,
@@ -45,6 +46,14 @@ module.exports = class createCommand extends Command {
 			}))
 			console.log(`${msg.author.username} made a creation: ${user} with the avatar ${icon} and said "${content}" `)
 			
+=======
+				.then(webhook => webhook.edit(`Creation by ${msg.author.username} of ${user}`, `${icon}`))
+				.then(webhook => webhook.send(content, {
+					username: `${user}`,
+					avatarURL: `${icon}`
+				}));
+			console.log(`${msg.author.username} made a creation: ${user} with the avatar ${icon} and said "${content}" `);
+>>>>>>> 1d0572bb7f29e4de364d42b4843e9202645f8afb
 			return null;
 		} catch (err) {
 			return msg.reply(`Oh no, an error occurred: \`${err.message}\`. Try again later!`);

@@ -9,6 +9,10 @@ module.exports = class ThiccCommand extends Command {
 			group: 'random-seed',
 			memberName: 'thicc',
 			description: 'Determines your thicc size.',
+<<<<<<< HEAD
+=======
+			nsfw: true,
+>>>>>>> 1d0572bb7f29e4de364d42b4843e9202645f8afb
 			args: [
 				{
 					key: 'user',
@@ -21,6 +25,13 @@ module.exports = class ThiccCommand extends Command {
 	}
 
 	run(msg, { user }) {
+<<<<<<< HEAD
+=======
+		if (this.client.isOwner(user)) {
+			if (user.id === msg.author.id) return msg.reply(`thi${'c'.repeat(20)}`);
+			return msg.reply(`thic`);
+		}
+>>>>>>> 1d0572bb7f29e4de364d42b4843e9202645f8afb
 		const clientAuthor = user.id === this.client.user.id;
 		const random = MersenneTwister19937.seed(clientAuthor ? msg.author.id : user.id);
 		const length = integer(0, 20)(random);
