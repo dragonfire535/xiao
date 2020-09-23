@@ -43,14 +43,14 @@ module.exports = class MapCommand extends Command {
 
 	async run(msg, { zoom, location }) {
 		try {
-			const { body } = await request
+			/* const { body } = await request
 				.get('https://maps.googleapis.com/maps/api/staticmap')
 				.query({
 					center: location,
 					zoom,
 					size: '500x500',
 					key: GOOGLE_KEY
-				});
+				}); */
 			const url = `https://www.google.com/maps/search/${encodeURIComponent(location)}`;
 			return msg.say(`<${url}>`, { files: [{ attachment: body, name: 'map.png' }] });
 		} catch (err) {
