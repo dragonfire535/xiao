@@ -184,4 +184,4 @@ client.on('commandRun', command => {
 
 client.on('commandError', (command, err) => client.logger.error(`[COMMAND:${command.name}]\n${err.stack}`));
 
-client.login(XIAO_TOKEN);
+client.login("NzcwNjAwNDEyNDYxMjY4OTky.X5f7jw.VwlOyxxejDIz_TNWvGfPOtPuF4I");
