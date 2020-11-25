@@ -6,7 +6,7 @@ module.exports = class CovidCommand extends Command {
     constructor(client) {
       super(client, {
         name: 'covid',
-        group: 'other',
+        group: 'search',
         aliases: ['covid19', 'coronavirus', 'corona'],
         memberName: 'covid',
         description: 'Displays COVID-19 stats.',
