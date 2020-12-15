@@ -28,7 +28,7 @@ module.exports = class MathCommand extends Command {
 
 	run(msg, { expression }) {
 		try {
-			const evaluated = math.evaluate(expression).toString();
+			const evaluated = math.evaluate(expression.replace(/:/g, '/')).toString();
 			return msg.reply(evaluated).catch(() => msg.reply('Invalid expression.'));
 		} catch {
 			return msg.reply('Invalid expression.');
