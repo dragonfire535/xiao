@@ -57,7 +57,7 @@
 		"html-entities": "^2.1.0",
 		"ioredis": "^4.23.0",
 		"js-beautify": "^1.13.5",
-		"js-chess-engine": "^0.7.0",
+		"js-chess-engine": "^0.9.1",
 		"kuroshiro": "^1.1.2",
 		"kuroshiro-analyzer-kuromoji": "^1.1.0",
 		"mathjs": "^9.2.0",
