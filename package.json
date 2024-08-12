@@ -37,7 +37,7 @@
 		"@tensorflow/tfjs-node": "^4.20.0",
 		"@twemoji/parser": "^15.1.1",
 		"bombsweeper.js": "^1.0.1",
-		"cheerio": "1.0.0-rc.12",
+		"cheerio": "1.0.0",
 		"city-timezones": "^1.2.1",
 		"cloc": "2.0.0-cloc",
 		"common-tags": "^1.8.2",
