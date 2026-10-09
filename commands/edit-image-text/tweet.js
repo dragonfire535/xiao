@@ -4,7 +4,7 @@ const { createCanvas, loadImage } = require('@napi-rs/canvas');
 const { TwitterOpenApi } = require('twitter-openapi-typescript');
 let emojiRegex;
 import('emoji-regex').then(loadedModule => {
-	emojiRegex = loadedModule.default();
+	emojiRegex = loadedModule.default;
 });
 const twemoji = require('@twemoji/parser');
 const api = new TwitterOpenApi();

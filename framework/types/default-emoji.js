@@ -1,7 +1,7 @@
 const ArgumentType = require('../ArgumentType');
 let emojiRegex;
 import('emoji-regex').then(loadedModule => {
-	emojiRegex = loadedModule.default();
+	emojiRegex = loadedModule.default;
 });
 const examples = ['😄', '🏳️‍🌈', '🦑', '🦆'];
 
