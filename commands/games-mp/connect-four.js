@@ -1,7 +1,10 @@
 const Command = require('../../framework/Command');
 const { Connect4AI } = require('connect4-ai');
 const { stripIndents } = require('common-tags');
-const emojiRegex = require('emoji-regex');
+let emojiRegex;
+import('emoji-regex').then(loadedModule => {
+	emojiRegex = loadedModule.default();
+});
 const { verify, list } = require('../../util/Util');
 const { LOADING_EMOJI_ID } = process.env;
 const blankEmoji = '⚪';

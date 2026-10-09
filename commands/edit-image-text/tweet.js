@@ -2,7 +2,10 @@ const Command = require('../../framework/Command');
 const { PermissionFlagsBits } = require('discord.js');
 const { createCanvas, loadImage } = require('@napi-rs/canvas');
 const { TwitterOpenApi } = require('twitter-openapi-typescript');
-const emojiRegex = require('emoji-regex');
+let emojiRegex;
+import('emoji-regex').then(loadedModule => {
+	emojiRegex = loadedModule.default();
+});
 const twemoji = require('@twemoji/parser');
 const api = new TwitterOpenApi();
 const moment = require('moment');

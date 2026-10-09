@@ -57,6 +57,11 @@ Only if you want to use the DECTalk command.
 * `REDIS_HOST` is the hostname of your Redis server. If unsure, it's probably `localhost`.
 * `REDIS_PASS` is the password to your Redis server.
 
+#### Configs
+* `TF_CPP_MIN_LOG_LEVEL` is the config for Tensorflow console logging. Setting it to "1"
+means that Tensorflow will only log warnings and errors and skip debugging info. I don't
+recommend setting this to anything higher than 1.
+
 #### Emojis IDs
 * `SUCCESS_EMOJI_ID` is an emoji ID for when things succeed. Defaults to "✅".
 * `FAILURE_EMOJI_ID` is an emoji ID for when things fail. Defaults to "❌".
@@ -84,7 +89,7 @@ Only if you want to use the DECTalk command.
 
 ### Run (Linux)
 
-> Install instructions below are for Linux. She should work on Windows, but I can't guarantee anything.
+> Install instructions below are for Linux. If you're on Windows, I recommend WSL.
 
 1. Install [Node.js](https://nodejs.org/en/).
 2. Run `apt install git` to install git.
@@ -106,7 +111,7 @@ Only if you want to use the DECTalk command.
 18. Start Xiao up!
 
 ## Commands
-Total: 515
+Total: 514
 
 ### Utility:
 
@@ -413,7 +418,6 @@ Total: 515
 
 * **analog-clock:** Draws an analog clock for a timezone.
 * **approved:** Draws an "approved" stamp over an image or a user's avatar.
-* **ascii:** Draws an image or a user's avatar but with ascii.
 * **blur:** Draws an image or a user's avatar but blurred.
 * **bob-ross:** Draws an image or a user's avatar over Bob Ross' canvas.
 * **brazzers:** Draws an image with the Brazzers logo in the corner. (NSFW)
@@ -738,7 +742,6 @@ Total: 515
 * [winston](https://www.npmjs.com/package/winston)
 * [wuzzy](https://www.npmjs.com/package/wuzzy)
 * [zip-to-timezone](https://www.npmjs.com/package/zip-to-timezone)
-* [zlib-sync](https://www.npmjs.com/package/zlib-sync)
 
 ### Other Credits
 * **changelog:**
@@ -802,7 +805,7 @@ Total: 515
    - [Cat Facts API](https://catfact.ninja/) (API)
 * **dog:**
    - [TheDogAPI](https://thedogapi.com/) ([API](https://docs.thedogapi.com/))
-   - [Dog API](https://kinduff.github.io/dog-api/) (API)
+   - [Dog API](https://dogapi.dog/) (API)
 * **duck:**
    - [Random-d.uk](https://random-d.uk/) ([API](https://random-d.uk/api))
 * **fox:**
