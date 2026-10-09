@@ -1,9 +1,6 @@
 const request = require('node-superfetch');
 const cheerio = require('cheerio');
 const fs = require('fs');
-const { parser } = require('stream-json');
-const { pick } = require('stream-json/filters/pick.js');
-const { streamArray } = require('stream-json/streamers/stream-array.js');
 const { chain } = require('stream-chain');
 const path = require('path');
 const { checkFileExists, removeFromArray } = require('../util/Util');
@@ -19,6 +16,15 @@ module.exports = class JeopardyScrape {
 		this.imported = false;
 		this.retry = new Set();
 		this.failed = [];
+		this.parser = null;
+		this.streamArray = null;
+		this.pick = null;
+	}
+
+	async loadStreamJson() {
+		this.parser = (await import('stream-json')).default;
+		this.streamArray = (await import('stream-json/streamers/stream-array.js')).default;
+		this.pick = (await import('stream-json/filters/pick.js')).default;
 	}
 
 	async fetchSeasons() {
@@ -83,12 +89,13 @@ module.exports = class JeopardyScrape {
 		return this;
 	}
 
-	importClues() {
+	async importClues() {
+		if (!this.parser || !this.pick || !this.streamArray) await this.loadStreamJson();
 		const pipeline = chain([
 			fs.createReadStream(path.join(__dirname, '..', 'data', 'jeopardy.json'), { encoding: 'utf8' }),
-			parser(),
-			pick({ filter: 'clues' }),
-			streamArray()
+			this.parser(),
+			this.pick({ filter: 'clues' }),
+			this.streamArray()
 		]);
 		pipeline.on('data', ({ value }) => this.clues.push(value));
 		return new Promise(res => {
